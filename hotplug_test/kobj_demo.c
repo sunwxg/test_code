@@ -99,4 +99,5 @@ module_exit(kobj_demo_exit);
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("sun.wxg@gmail.com");
-MODULE_DESCRIPTION("hotplug");
+/*MODULE_DESCRIPTION("hotplug");
+ */
