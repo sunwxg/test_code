@@ -1,31 +1,34 @@
-#include "unity_fixture.h"
+#include "unity.h"
+#include <setjmp.h>
+#include <stdio.h>
 
-TEST_GROUP(LedDriver)
 
-TEST_SETUP(LedDriver)
+void setUp(void)
 {
 }
 
-TEST_TEAR_DOWN(LedDriver)
+void tearDown(void)
 {
 }
 
-TEST(LedDriver, LedsOffAfterCreate)
+void LedsOffAfterCreate(void)
 {
 	TEST_FAIL_MESSAGE("Start Here");
 }
 
-TEST_GROUP_RUNNER(LedDriver)
-{
-	RUN_TEST_CASE(LedDriver, LedsOffAfterCreate);
-}
 
-static void RunAllTests(void)
+void resetTest(void)
 {
-	RUN_TEST_GROUP(LedDriver);
+  tearDown();
+  setUp();
 }
 
 int main(int argc, char * argv[])
 {
-	return UnityMain(argc, argv, RunAllTests);
+	UnityBegin("test/LedDriverTest.c");
+
+	RUN_TEST(LedsOffAfterCreate);
+	
+	UnityEnd();
+	return 0;
 }
