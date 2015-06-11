@@ -1,5 +1,6 @@
 *.cmd
 *.mod
 *.ko
+*.swp
 cscope.*
 tags
