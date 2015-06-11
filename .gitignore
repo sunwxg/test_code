@@ -4,3 +4,4 @@
 *.swp
 cscope.*
 tags
+led_TDD/test/build/*
