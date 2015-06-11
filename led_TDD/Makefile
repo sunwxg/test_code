@@ -18,4 +18,13 @@ default:
 	./$(TARGET_BUILD)/$(TARGET1)
 
 clean:
-	@rm -f $(TARGET_BASE1)
+	@rm -f $(TARGET_BUILD)/$(TARGET_BASE1)
+	@rm -f cscope.* tags
+
+tags:
+	rm -f cscope.* tags
+	find . -name "*.[hc]" > cscope.files
+	find /usr/include/ -name "*.[ch]" -type f >>cscope.files
+	find /usr/local/include -name "*.[ch]" -type f >>cscope.files
+	cscope -b -q -k
+	ctags -L cscope.files

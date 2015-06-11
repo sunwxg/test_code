@@ -1,19 +1,21 @@
 #include "unity.h"
-#include <setjmp.h>
-#include <stdio.h>
 
+int state;
 
 void setUp(void)
 {
+	state = 0;
 }
 
 void tearDown(void)
 {
+	state = 0;
 }
 
 void LedsOffAfterCreate(void)
 {
-	TEST_FAIL_MESSAGE("Start Here");
+	TEST_ASSERT_MESSAGE(state, "start");
+//	TEST_FAIL_MESSAGE("Start Here");
 }
 
 
