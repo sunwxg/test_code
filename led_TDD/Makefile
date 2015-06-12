@@ -2,23 +2,25 @@ C_COMPILER=gcc
 
 CFLAGS=-std=c99
 CFLAGS += -Wall -g
+CFLAGS += -s
 
-TARGET_BASE1=LedDriverTest
-TARGET1 = $(TARGET_BASE1)
-SRC_FILES=test/src/unity.c
-SRC_FILES1=$(SRC_FILES) test/LedDriverTest.c
+TEST_DIR=test/
+TARGET=AllTest
+SRC_FILES=$(wildcard test/src/*.c test/*.c)
 TARGET_BUILD=test/build
 INC_DIRS=-Isrc -Itest/src
-SYMBOLS=-DTEST
 
-all: clean default
+all: clean_test default
 
 default:
-	@$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(SYMBOLS) $(SRC_FILES1) -o $(TARGET_BUILD)/$(TARGET1)
-	./$(TARGET_BUILD)/$(TARGET1)
+	$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(SYMBOLS) $(SRC_FILES) -o $(TARGET_BUILD)/$(TARGET)
+	@echo "-------------------------------------------"
+	$(TEST_DIR)run.sh
 
+clean_test:
+	@rm -f $(TARGET_BUILD)/$(TARGET)
 clean:
-	@rm -f $(TARGET_BUILD)/$(TARGET_BASE1)
+	@rm -f $(TARGET_BUILD)/$(TARGET)
 	@rm -f cscope.* tags
 
 tags:

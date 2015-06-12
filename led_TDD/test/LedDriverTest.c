@@ -1,36 +1,22 @@
-#include "unity.h"
+#include "unity_fixture.h"
 
-int state;
 
-void setUp(void)
+TEST_GROUP(LedDriverTest);
+
+TEST_SETUP(LedDriverTest)
 {
-	state = 0;
 }
 
-void tearDown(void)
+TEST_TEAR_DOWN(LedDriverTest)
 {
-	state = 0;
 }
 
-void LedsOffAfterCreate(void)
+TEST(LedDriverTest, LedsOffAfterCreate)
 {
-	TEST_ASSERT_MESSAGE(state, "start");
-//	TEST_FAIL_MESSAGE("Start Here");
+    TEST_FAIL_MESSAGE("start here");
 }
 
-
-void resetTest(void)
+TEST_GROUP_RUNNER(LedDriverTest)
 {
-  tearDown();
-  setUp();
-}
-
-int main(int argc, char * argv[])
-{
-	UnityBegin("test/LedDriverTest.c");
-
-	RUN_TEST(LedsOffAfterCreate);
-	
-	UnityEnd();
-	return 0;
+    RUN_TEST_CASE(LedDriverTest, LedsOffAfterCreate);
 }
