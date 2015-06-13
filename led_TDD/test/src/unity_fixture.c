@@ -86,9 +86,10 @@ void UnityTestRunner(unityfunction* setup,
         Unity.TestFile = file;
         Unity.CurrentTestName = printableName;
         Unity.CurrentTestLineNumber = line;
-        if (!UnityFixture.Verbose)
+        if (!UnityFixture.Verbose) {
+            UNITY_OUTPUT_CHAR('\n');
             UNITY_OUTPUT_CHAR('.');
-        else
+	} else
             UnityPrint(printableName);
 
         Unity.NumberOfTests++;
