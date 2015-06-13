@@ -2,7 +2,7 @@
 
 static void runAllTests(void)
 {
-    RUN_TEST_GROUP(LedDriverTest);
+    RUN_TEST_GROUP(LedDriver);
 }
 
 int main(int argc, const char* argv[])

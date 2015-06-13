@@ -6,14 +6,14 @@ CFLAGS += -s
 
 TEST_DIR=test/
 TARGET=AllTest
-SRC_FILES=$(wildcard test/src/*.c test/*.c)
+SRC_FILES=$(wildcard test/src/*.c test/*.c src/*.c)
 TARGET_BUILD=test/build
-INC_DIRS=-Isrc -Itest/src
+INC_DIRS=-Iinclude -Itest/src
 
 all: clean_test default
 
 default:
-	$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(SYMBOLS) $(SRC_FILES) -o $(TARGET_BUILD)/$(TARGET)
+	@$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(SYMBOLS) $(SRC_FILES) -o $(TARGET_BUILD)/$(TARGET)
 	@echo "-------------------------------------------"
 	$(TEST_DIR)run.sh
 
