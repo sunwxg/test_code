@@ -21,7 +21,7 @@ TEST(mygroup, test1)
 
 TEST(mygroup, test2)
 {
-    TEST_ASSERT_EQUAL_INT(0, data);
+    TEST_ASSERT_EQUAL_INT(5, data);
     data = 5;
 }
 
