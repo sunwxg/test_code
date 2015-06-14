@@ -6,7 +6,7 @@
 
 #include "unity.h"
 
-#define UNITY_FAIL_AND_BAIL   { Unity.CurrentTestFailed  = 1; longjmp(Unity.AbortFrame, 1); }
+#define UNITY_FAIL_AND_BAIL   { UNITY_PRINT_EOL; Unity.CurrentTestFailed  = 1; longjmp(Unity.AbortFrame, 1); }
 #define UNITY_IGNORE_AND_BAIL { Unity.CurrentTestIgnored = 1; longjmp(Unity.AbortFrame, 1); }
 /// return prematurely if we are already in failure or ignore state
 #define UNITY_SKIP_EXECUTION  { if ((Unity.CurrentTestFailed != 0) || (Unity.CurrentTestIgnored != 0)) {return;} }
@@ -273,6 +273,7 @@ void UnityPrintOk(void)
 //-----------------------------------------------
 static void UnityTestResultsBegin(const char* file, const UNITY_LINE_TYPE line)
 {
+    UNITY_PRINT_EOL;
     UnityPrint(file);
     UNITY_OUTPUT_CHAR(':');
     UnityPrintNumber((_U_SINT)line);
