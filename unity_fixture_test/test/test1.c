@@ -27,7 +27,7 @@ TEST(mygroup, test2)
 
 TEST(mygroup, test3)
 {
-    data = 7;
+    data = 6;
     TEST_ASSERT_EQUAL_INT(7, data);
 }
 

@@ -44,19 +44,54 @@ TEST(LedDriver, TurnOnMultipleLeds)
 
 TEST(LedDriver, TurnOffAnyLed)
 {
-	LedDriver_TurnOn(9);
-	LedDriver_TurnOn(8); LedDriver_TurnOff(8);
-	TEST_ASSERT_EQUAL_HEX16(0x100, virtualLeds);
+	LedDriver_TurnAllOn();
+	LedDriver_TurnOff(8);
+	TEST_ASSERT_EQUAL_HEX16(0xff7f, virtualLeds);
 }
 
-TEST(LedDriver, fault1)
+TEST(LedDriver, AllOn)
 {
-	TEST_FAIL_MESSAGE("fault 1");
+	LedDriver_TurnAllOn();
+	TEST_ASSERT_EQUAL_HEX16(0xffff, virtualLeds);
 }
 
-TEST(LedDriver, fault2)
+TEST(LedDriver, LedMemoryIsNotReadable)
 {
-	TEST_FAIL_MESSAGE("fault 2");
+	virtualLeds = 0xffff;
+	LedDriver_TurnOn(8);
+	TEST_ASSERT_EQUAL_HEX16(0x80, virtualLeds);
+}
+
+TEST(LedDriver, UpperAndLowerBounds)
+{
+	LedDriver_TurnOn(1);
+	LedDriver_TurnOn(16);
+	TEST_ASSERT_EQUAL_HEX16(0x8001, virtualLeds);
+}
+
+TEST(LedDriver, OutOfBoundsChangesNothing)
+{
+	LedDriver_TurnOn(-1);
+	LedDriver_TurnOn(0);
+	LedDriver_TurnOn(17);
+	LedDriver_TurnOn(3141);
+	TEST_ASSERT_EQUAL_HEX16(0, virtualLeds);
+}
+
+TEST(LedDriver, OutOfBoundsTurnOffDoesNoHarm)
+{
+	LedDriver_TurnAllOn();
+
+	LedDriver_TurnOff(-1);
+	LedDriver_TurnOff(0);
+	LedDriver_TurnOff(17);
+	LedDriver_TurnOff(3141);
+	TEST_ASSERT_EQUAL_HEX16(0xffff, virtualLeds);
+}
+
+IGNORE_TEST(LedDriver, OutOfBoundsToDo)
+{
+/* TODO: what should we do during runtime? */
 }
 
 TEST_GROUP_RUNNER(LedDriver)
@@ -66,6 +101,10 @@ TEST_GROUP_RUNNER(LedDriver)
     RUN_TEST_CASE(LedDriver, TurnOffLedOne);
     RUN_TEST_CASE(LedDriver, TurnOnMultipleLeds);
     RUN_TEST_CASE(LedDriver, TurnOffAnyLed);
-    RUN_TEST_CASE(LedDriver, fault1);
-    RUN_TEST_CASE(LedDriver, fault2);
+    RUN_TEST_CASE(LedDriver, AllOn);
+    RUN_TEST_CASE(LedDriver, LedMemoryIsNotReadable);
+    RUN_TEST_CASE(LedDriver, UpperAndLowerBounds);
+    RUN_TEST_CASE(LedDriver, OutOfBoundsChangesNothing);
+    RUN_TEST_CASE(LedDriver, OutOfBoundsTurnOffDoesNoHarm);
+    RUN_TEST_CASE(LedDriver, OutOfBoundsToDo);
 }

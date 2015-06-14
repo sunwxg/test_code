@@ -89,8 +89,9 @@ void UnityTestRunner(unityfunction* setup,
         if (!UnityFixture.Verbose) {
             UNITY_OUTPUT_CHAR('\n');
             UNITY_OUTPUT_CHAR('.');
-	} else
+	} else {
             UnityPrint(printableName);
+	}
 
         Unity.NumberOfTests++;
         UnityMalloc_StartTest();
