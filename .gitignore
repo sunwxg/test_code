@@ -6,3 +6,4 @@ cscope.*
 tags
 led_TDD/test/build/*
 unity_fixture_test/test/build/*
+cpputest_test/objs
