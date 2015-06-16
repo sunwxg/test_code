@@ -23,6 +23,18 @@ clean:
 	@rm -f $(TARGET_BUILD)/$(TARGET)
 	@rm -f cscope.* tags
 
+.PHONY: test vtest clean_test clean
+
+test: clean_test
+	@$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(SYMBOLS) $(SRC_FILES) -o $(TARGET_BUILD)/$(TARGET)
+	@echo "-------------------------------------------"
+	$(TEST_DIR)run.sh
+
+vtest: clean_test
+	@$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(SYMBOLS) $(SRC_FILES) -o $(TARGET_BUILD)/$(TARGET)
+	@echo "-------------------------------------------"
+	$(TEST_DIR)run.sh -v
+	
 tags:
 	rm -f cscope.* tags
 	find . -name "*.[hc]" > cscope.files
