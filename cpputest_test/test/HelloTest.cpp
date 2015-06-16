@@ -47,5 +47,5 @@ TEST_GROUP(HelloWorld)
 
 TEST(HelloWorld, PrintOk)
 {
-//	FAIL("start here");
+	FAIL("start here");
 }
