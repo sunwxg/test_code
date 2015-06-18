@@ -1,1 +1,3 @@
-lightschedulerTDD_tests
+lightschedulerTDD_tests*
+lib/*
+objs/*
