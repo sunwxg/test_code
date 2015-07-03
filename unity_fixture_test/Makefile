@@ -17,6 +17,10 @@ default:
 	@$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(SYMBOLS) $(SRC_FILES) $(SRC_FILES1) -o $(BUILD_DIR)$(TARGET1)
 	. $(TEST_DIR)run.sh
 
+vtest: clean_obj
+	@$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(SYMBOLS) $(SRC_FILES) $(SRC_FILES1) -o $(BUILD_DIR)$(TARGET1)
+	$(TEST_DIR)run.sh -v
+
 clean_obj:
 	@rm -f $(TARGET_BASE1)
 	@rm -f $(BUILD_DIR)*
