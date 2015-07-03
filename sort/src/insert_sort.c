@@ -1,4 +1,4 @@
-#include "insert_sort.h"
+#include "sort.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

@@ -1,5 +1,5 @@
 #include "unity_fixture.h"
-#include "insert_sort.h"
+#include "sort.h"
 
 static int compare(void *key1, void *key2)
 {
