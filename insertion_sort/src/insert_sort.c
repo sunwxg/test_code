@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define DATA(i) &data[(i) * esize]
+
 int insert_sort(void * array, int asize, int esize, \
 	int compare(void * key1, void * key2))
 {
@@ -16,15 +18,15 @@ int insert_sort(void * array, int asize, int esize, \
 	
 	for (i = 1; i < asize; i++) {
 
-		memcpy(key, &data[i * esize], esize);
+		memcpy(key, DATA(i), esize);
 		j = i - 1;
 
-		while (j >= 0 && compare(&data[j * esize], key)) {
-			memcpy(&data[(j + 1) * esize], &data[j * esize], esize);
+		while (j >= 0 && compare(DATA(j), key)) {
+			memcpy(DATA(j + 1), DATA(j), esize);
 			j--;
 		}
 
-		memcpy(&data[(j + 1) * esize], key, esize);
+		memcpy(DATA(j + 1), key, esize);
 	}
 
 	free(key);
