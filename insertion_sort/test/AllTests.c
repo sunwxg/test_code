@@ -2,8 +2,7 @@
 
 static void runAllTests(void)
 {
-    RUN_TEST_GROUP(mygroup);
-    RUN_TEST_GROUP(test2);
+    RUN_TEST_GROUP(insertion_sort);
 }
 
 int main(int argc, const char* argv[])

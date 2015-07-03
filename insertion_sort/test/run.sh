@@ -4,7 +4,7 @@ for i in ./test/build/*
 do
 	if test -f $i
 	then
-		./$i
+		$i $1
 	fi
 done
 

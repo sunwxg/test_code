@@ -1,6 +1,13 @@
 #include "unity_fixture.h"
+#include "insert_sort.h"
 
-//static int array[] = {1 , 2};
+static int compare(void *key1, void *key2)
+{
+	int *a = (int *)key1;
+	int *b = (int *)key2;
+
+	return *a > *b ? 1 : 0;
+}
 
 TEST_GROUP(insertion_sort);
 
@@ -14,10 +21,43 @@ TEST_TEAR_DOWN(insertion_sort)
 
 TEST(insertion_sort, SortTwoArray)
 {
-	TEST_ASSERT_MESSAGE("start here");
+	int a[] = {3, 2};
+	TEST_ASSERT_EQUAL_INT(0, insert_sort((void *)a, 2, sizeof(int), &compare));
+
+	TEST_ASSERT_EQUAL_INT(2, a[0]);
+	TEST_ASSERT_EQUAL_INT(3, a[1]);
+
+}
+
+TEST(insertion_sort, SortThreeArray)
+{
+	int a[] = {3, 5, 2};
+	TEST_ASSERT_EQUAL_INT(0, insert_sort((void *)a, 3, sizeof(int), &compare));
+
+	TEST_ASSERT_EQUAL_INT(2, a[0]);
+	TEST_ASSERT_EQUAL_INT(3, a[1]);
+	TEST_ASSERT_EQUAL_INT(5, a[2]);
+
+}
+
+TEST(insertion_sort, SortAnyArray)
+{
+	int a[] = {3, 5, 2, 10, 9, 7};
+	TEST_ASSERT_EQUAL_INT(0, insert_sort((void *)a, 6, sizeof(int), &compare));
+
+	TEST_ASSERT_EQUAL_INT(2, a[0]);
+	TEST_ASSERT_EQUAL_INT(3, a[1]);
+	TEST_ASSERT_EQUAL_INT(5, a[2]);
+	TEST_ASSERT_EQUAL_INT(7, a[3]);
+	TEST_ASSERT_EQUAL_INT(9, a[4]);
+	TEST_ASSERT_EQUAL_INT(10, a[5]);
+
 }
 
 TEST_GROUP_RUNNER(insertion_sort)
 {
-    RUN_TEST_CASE(insertion_sort, SortTwoArray);
+	RUN_TEST_CASE(insertion_sort, SortTwoArray);
+	RUN_TEST_CASE(insertion_sort, SortThreeArray);
+	RUN_TEST_CASE(insertion_sort, SortAnyArray);
+	
 }
