@@ -43,7 +43,7 @@ static int chose_pivot(int lo, int hi)
 	return r[1];
 }
 
-int partition(void * array, int esize, int lo, int hi,
+static int partition(void * array, int esize, int lo, int hi,
 	int compare(void * key1, void * key2))
 {
 	char *data = array;
