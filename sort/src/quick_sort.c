@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <alloca.h>
 
 #define DATA(i) &data[(i) * esize]
 #define SWAP_DATA(a, b)  \
@@ -13,14 +14,13 @@ static int swap_data(void * a, void * b, int size)
 {
 	void *temp;
 
-	if ((temp = malloc(size)) == NULL)
+	if ((temp = alloca(size)) == NULL)
 		return -1;
 
 	memcpy(temp, a, size);
 	memcpy(a, b, size);
 	memcpy(b, temp, size);
 
-	free(temp);
 	return 0;
 }
 
@@ -51,7 +51,7 @@ int partition(void * array, int esize, int lo, int hi,
 	int store_index;
 	int pivot_index = chose_pivot(lo, hi);
 
-	if ((pivot_value = malloc(esize)) == NULL)
+	if ((pivot_value = alloca(esize)) == NULL)
 		return -1;
 
 	memcpy(pivot_value, DATA(pivot_index), esize);
@@ -67,8 +67,6 @@ int partition(void * array, int esize, int lo, int hi,
 	}
 	
 	SWAP_DATA(DATA(store_index), DATA(hi));
-
-	free(pivot_value);
 
 	return store_index;
 }

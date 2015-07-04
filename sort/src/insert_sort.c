@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <alloca.h>
 
 #define DATA(i) &data[(i) * esize]
 
@@ -13,7 +14,7 @@ int insert_sort(void * array, int asize, int esize, \
 	char *data = array;
 	void *key;
 
-	if ((key = malloc(esize)) == NULL)
+	if ((key = alloca(esize)) == NULL)
 		return -1;
 	
 	for (i = 1; i < asize; i++) {
@@ -28,8 +29,6 @@ int insert_sort(void * array, int asize, int esize, \
 
 		memcpy(DATA(j + 1), key, esize);
 	}
-
-	free(key);
 
 	return 0;
 }
