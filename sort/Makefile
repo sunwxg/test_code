@@ -9,9 +9,10 @@ BUILD_DIR=test/build/
 TARGET_BASE1=insertion_sort_test
 TARGET1 = $(TARGET_BASE1)
 SRC_TEST_FILES1=$(TEST_DIR)src/unity_fixture.c $(TEST_DIR)src/unity.c
-SRC_TEST_FILES1+=$(TEST_DIR)AllTests.c $(TEST_DIR)insertion_sort_test.c
+SRC_TEST_FILES1+=$(TEST_DIR)AllTests.c $(TEST_DIR)insertion_sort_test.c\
+		$(TEST_DIR)quick_sort_test.c
 INC_DIRS=-Isrc -I$(TEST_DIR)src
-SRC_TEST_FILES+=$(SRC_DIR)insert_sort.c
+SRC_TEST_FILES+=$(SRC_DIR)insert_sort.c $(SRC_DIR)quick_sort.c
 
 all: clean_obj default
 
