@@ -1,28 +1,4 @@
-#include "sort.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <alloca.h>
-
-#define DATA(i) &data[(i) * esize]
-#define SWAP_DATA(a, b)  \
-	if (swap_data(a, b, esize))\
-		return -1;
-	
-
-static int swap_data(void * a, void * b, int size)
-{
-	void *temp;
-
-	if ((temp = alloca(size)) == NULL)
-		return -1;
-
-	memcpy(temp, a, size);
-	memcpy(a, b, size);
-	memcpy(b, temp, size);
-
-	return 0;
-}
+#include "sort_internal.h"
 
 static int compare_pivot(void *key1, void *key2)
 {

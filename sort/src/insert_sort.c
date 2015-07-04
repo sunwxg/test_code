@@ -1,10 +1,5 @@
-#include "sort.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <alloca.h>
+#include "sort_internal.h"
 
-#define DATA(i) &data[(i) * esize]
 
 int insert_sort(void * array, int asize, int esize, \
 	int compare(void * key1, void * key2))

@@ -3,9 +3,6 @@
 #include "sort.h"
 #include "quick_sort.c"
 
-//int partition(void * array, int esize, int lo, int hi,
-//	int compare(void * key1, void * key2));
-
 static int compare(void *key1, void *key2)
 {
 	int *a = (int *)key1;
