@@ -13,6 +13,7 @@
 		return -1;
 
 int swap_data(void * a, void * b, int size);
+void print_array(int *array, int asize);
 
 
 #endif  /*__SORT_INTERNAL */

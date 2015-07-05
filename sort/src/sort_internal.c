@@ -13,3 +13,12 @@ int swap_data(void * a, void * b, int size)
 
 	return 0;
 }
+
+void print_array(int *array, int asize)
+{
+	printf("\n");
+	for (int i = 0; i < asize; i++) {
+		printf("%d\t", *(array + i));
+	}
+	printf("\n");
+}
