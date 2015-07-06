@@ -31,9 +31,3 @@ TEST(mygroup, test3)
     TEST_ASSERT_EQUAL_INT(7, data);
 }
 
-TEST_GROUP_RUNNER(mygroup)
-{
-    RUN_TEST_CASE(mygroup, test1);
-    RUN_TEST_CASE(mygroup, test2);
-    RUN_TEST_CASE(mygroup, test3);
-}
