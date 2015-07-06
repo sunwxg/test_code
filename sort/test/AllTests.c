@@ -22,6 +22,11 @@ TEST_GROUP_RUNNER(insertion_sort)
 	RUN_TEST_CASE(insertion_sort,SortAnyArray);
 }
 
+TEST_GROUP_RUNNER(merge_sort)
+{
+	RUN_TEST_CASE(merge_sort,SortTwoArray);
+}
+
 TEST_GROUP_RUNNER(quick_sort)
 {
 	RUN_TEST_CASE(quick_sort,SelectPivot);
@@ -35,6 +40,7 @@ static void runAllTests(void)
 {
 	RUN_TEST_GROUP(heap_sort);
 	RUN_TEST_GROUP(insertion_sort);
+	RUN_TEST_GROUP(merge_sort);
 	RUN_TEST_GROUP(quick_sort);
 }
 

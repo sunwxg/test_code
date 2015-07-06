@@ -21,6 +21,8 @@ default:
 	@$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(SYMBOLS) $(SRC_TEST_FILES)\
 		-o $(TEST_BUILD_DIR)$(TARGET)
 
+.PHONY: run vrun gen_test clean_obj clean tags
+
 run:
 	@$(TEST_DIR)run.sh
 
