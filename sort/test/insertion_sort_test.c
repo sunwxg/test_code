@@ -54,10 +54,3 @@ TEST(insertion_sort, SortAnyArray)
 
 }
 
-TEST_GROUP_RUNNER(insertion_sort)
-{
-	RUN_TEST_CASE(insertion_sort, SortTwoArray);
-	RUN_TEST_CASE(insertion_sort, SortThreeArray);
-	RUN_TEST_CASE(insertion_sort, SortAnyArray);
-	
-}

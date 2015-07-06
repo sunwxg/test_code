@@ -13,9 +13,9 @@ SRC_TEST_FILES+=$(SRC_DIR)sort_internal.c $(SRC_DIR)insert_sort.c
 
 INC_DIRS=-Isrc -I$(TEST_DIR)src
 
-all: clean_obj default run
+all: clean_obj gen_test default run
 
-vtest: clean_obj default vrun
+vtest: clean_obj gen_test default vrun
 
 default:
 	@$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(SYMBOLS) $(SRC_TEST_FILES)\
@@ -26,6 +26,9 @@ run:
 
 vrun:
 	$(TEST_DIR)run.sh -v
+
+gen_test:
+	@$(TEST_DIR)gen_main.sh > $(TEST_DIR)AllTests.c
 
 clean_obj:
 	@rm -f $(TARGET)

@@ -72,11 +72,3 @@ TEST(quick_sort, AnySort)
 	TEST_ASSERT_EQUAL_INT(100, a[6]);
 }
 
-TEST_GROUP_RUNNER(quick_sort)
-{
-	RUN_TEST_CASE(quick_sort, SelectPivot);
-	RUN_TEST_CASE(quick_sort, OneSort);
-	RUN_TEST_CASE(quick_sort, TwoSort);
-	RUN_TEST_CASE(quick_sort, ThreeSort);
-	RUN_TEST_CASE(quick_sort, AnySort);
-}
