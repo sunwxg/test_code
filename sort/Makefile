@@ -22,10 +22,10 @@ default:
 		-o $(TEST_BUILD_DIR)$(TARGET)
 
 run:
-	$(TEST_DIR)run.sh
+	@$(TEST_DIR)run.sh
 
 vrun:
-	$(TEST_DIR)run.sh -v
+	@$(TEST_DIR)run.sh -v
 
 gen_test:
 	@$(TEST_DIR)gen_main.sh > $(TEST_DIR)AllTests.c
