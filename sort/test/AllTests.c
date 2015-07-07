@@ -24,7 +24,20 @@ TEST_GROUP_RUNNER(insertion_sort)
 
 TEST_GROUP_RUNNER(merge_sort)
 {
-	RUN_TEST_CASE(merge_sort,SortTwoArray);
+	RUN_TEST_CASE(merge_sort,CopyDataArray);
+	RUN_TEST_CASE(merge_sort,merget2dThreeArray);
+	RUN_TEST_CASE(merge_sort,merget2dThreeArray2);
+	RUN_TEST_CASE(merge_sort,merget2dThreeArray3);
+	RUN_TEST_CASE(merge_sort,merget2dFiveArray);
+	RUN_TEST_CASE(merge_sort,CopyArrayThreeArray);
+	RUN_TEST_CASE(merge_sort,CopyArrayFourArray);
+	RUN_TEST_CASE(merge_sort,M_split_T2DFourArray);
+	RUN_TEST_CASE(merge_sort,M_split_T2DSenvenArray);
+	RUN_TEST_CASE(merge_sort,MergeSortT2DSenvenArray);
+	RUN_TEST_CASE(merge_sort,m_split_sort_d2tThreeArray);
+	RUN_TEST_CASE(merge_sort,m_split_sort_d2tFourArray);
+	RUN_TEST_CASE(merge_sort,MergeSortD2TSenvenArray);
+	RUN_TEST_CASE(merge_sort,MergeSortD2TAnyArray);
 }
 
 TEST_GROUP_RUNNER(quick_sort)
