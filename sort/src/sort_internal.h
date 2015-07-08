@@ -8,11 +8,9 @@
 #include <alloca.h>
 
 #define DATA(i) &data[(i) * esize]
-#define SWAP_DATA(a, b)  \
-	if (swap_data(a, b, esize))\
-		return -1;
+#define SWAP_DATA(a, b)  swap_data(a, b, esize)
 
-int swap_data(void * a, void * b, int size);
+void swap_data(void * a, void * b, int size);
 void print_array(int *array, int asize);
 
 

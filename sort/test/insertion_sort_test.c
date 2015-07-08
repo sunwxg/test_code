@@ -22,7 +22,7 @@ TEST_TEAR_DOWN(insertion_sort)
 TEST(insertion_sort, SortTwoArray)
 {
 	int a[] = {3, 2};
-	TEST_ASSERT_EQUAL_INT(0, insert_sort((void *)a, 2, sizeof(int), &compare));
+	insert_sort((void *)a, 2, sizeof(int), &compare);
 
 	TEST_ASSERT_EQUAL_INT(2, a[0]);
 	TEST_ASSERT_EQUAL_INT(3, a[1]);
@@ -32,7 +32,7 @@ TEST(insertion_sort, SortTwoArray)
 TEST(insertion_sort, SortThreeArray)
 {
 	int a[] = {3, 5, 2};
-	TEST_ASSERT_EQUAL_INT(0, insert_sort((void *)a, 3, sizeof(int), &compare));
+	insert_sort((void *)a, 3, sizeof(int), &compare);
 
 	TEST_ASSERT_EQUAL_INT(2, a[0]);
 	TEST_ASSERT_EQUAL_INT(3, a[1]);
@@ -43,7 +43,7 @@ TEST(insertion_sort, SortThreeArray)
 TEST(insertion_sort, SortAnyArray)
 {
 	int a[] = {3, 5, 2, 10, 9, 7};
-	TEST_ASSERT_EQUAL_INT(0, insert_sort((void *)a, 6, sizeof(int), &compare));
+	insert_sort((void *)a, 6, sizeof(int), &compare);
 
 	TEST_ASSERT_EQUAL_INT(2, a[0]);
 	TEST_ASSERT_EQUAL_INT(3, a[1]);

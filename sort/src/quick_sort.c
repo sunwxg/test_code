@@ -27,8 +27,7 @@ static int partition(void * array, int esize, int lo, int hi,
 	int store_index;
 	int pivot_index = chose_pivot(lo, hi);
 
-	if ((pivot_value = alloca(esize)) == NULL)
-		return -1;
+	pivot_value = alloca(esize);
 
 	memcpy(pivot_value, DATA(pivot_index), esize);
 
@@ -47,17 +46,16 @@ static int partition(void * array, int esize, int lo, int hi,
 	return store_index;
 }
 
-int quick_sort(void * array, int esize, int lo, int hi,
+void quick_sort(void * array, int esize, int lo, int hi,
 	int compare(void * key1, void * key2))
 {
 	int p;
 
 	if (lo < hi) {
-		if ((p= partition(array, esize, lo, hi, compare)) < 0)
-			return -1;
+		p= partition(array, esize, lo, hi, compare);
 		quick_sort(array, esize, lo, p - 1, compare);
 		quick_sort(array, esize, p + 1, hi, compare);
 	}
 
-	return 0;
+	return;
 }
