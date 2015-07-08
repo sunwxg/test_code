@@ -29,7 +29,8 @@ static int heapify_up(void * array, int asize, int esize,
 	int i = 2;
 
 	while(i <= asize) {
-		shift_up(array, i, esize, compare);
+		if (shift_up(array, i, esize, compare) < 0)
+			return -1;
 		i++;
 	}
 	return 0;
@@ -47,15 +48,17 @@ static int shift_down(void * array, int start, int end, int esize,
 	if (iLeftChild > end) {
 		return 0;
 	} else if (compare(DATA(iLeftChild), DATA(i)) > 0) {
-			SWAP_DATA(DATA(i), DATA(iLeftChild));
-			shift_down(array, iLeftChild, end, esize, compare); 
+		SWAP_DATA(DATA(i), DATA(iLeftChild));
+		if (shift_down(array, iLeftChild, end, esize, compare) < 0)
+			return -1;
 	}
 
 	if (iRightChild > end) {
 		return 0;
 	} else if (compare(DATA(iRightChild), DATA(i)) > 0) {
 		SWAP_DATA(DATA(i), DATA(iRightChild));
-		shift_down(array, iRightChild, end, esize, compare); 
+		if (shift_down(array, iRightChild, end, esize, compare) < 0)
+			return -1;
 	}
 
 	return 0;
@@ -67,7 +70,8 @@ static int heapify_down(void * array, int asize, int esize,
 	int start = (asize -2) / 2;
 
 	while (start >= 0) {
-		shift_down(array, start, asize - 1, esize, compare);
+		if (shift_down(array, start, asize - 1, esize, compare) < 0)
+			return -1;
 		start--;
 	}
 	return 0;
@@ -85,7 +89,8 @@ int heap_sort_d(void * array, int asize, int esize,
 	while (count > 0) {
 		SWAP_DATA(DATA(0), DATA(count));
 		count--;
-		shift_down(array, 0, count, esize, compare);
+		if (shift_down(array, 0, count, esize, compare) < 0)
+			return -1;
 	}
 	return 0;
 }
@@ -96,12 +101,14 @@ int heap_sort_u(void * array, int asize, int esize,
 	char *data = array;
 	int count = asize - 1;
 
-	heapify_up(array, asize, esize, compare);
+	if (heapify_up(array, asize, esize, compare) < 0)
+		return -1;
 
 	while (count > 0) {
 		SWAP_DATA(DATA(0), DATA(count));
 		count--;
-		shift_down(array, 0, count, esize, compare);
+		if (shift_down(array, 0, count, esize, compare) < 0)
+			return -1;
 	}
 	return 0;
 }

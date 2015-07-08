@@ -17,7 +17,8 @@ int insert_sort(void * array, int asize, int esize, \
 		memcpy(key, DATA(i), esize);
 		j = i - 1;
 
-		while (j >= 0 && compare(DATA(j), key)) {
+		// data(j-1) < data(j)=key < data(j+1)
+		while (j >= 0 && (compare(DATA(j), key) > 0)) {
 			memcpy(DATA(j + 1), DATA(j), esize);
 			j--;
 		}
