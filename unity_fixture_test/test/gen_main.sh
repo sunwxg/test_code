@@ -6,6 +6,8 @@ fi
 
 cd test
 
+echo "// File is generated automatically. Don't edit it."
+echo ""
 echo "#include \"unity_fixture.h\""
 echo ""
 

@@ -1,3 +1,5 @@
+// File is generated automatically. Don't edit it.
+
 #include "unity_fixture.h"
 
 TEST_GROUP_RUNNER(mygroup)
