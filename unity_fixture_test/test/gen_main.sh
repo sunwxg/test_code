@@ -1,11 +1,15 @@
 #!/bin/bash
 
+if [ -z $FILTER ]; then
+	FILTER='.'
+fi
+
 cd test
 
 echo "#include \"unity_fixture.h\""
 echo ""
 
-test_group=$(grep ^TEST_GROUP\( *.c |cut -d '(' -f 2 |cut -d ')' -f 1)
+test_group=$(grep ^TEST_GROUP\( *.c |cut -d '(' -f 2 |cut -d ')' -f 1 |grep $FILTER)
 test_case=$(grep ^TEST\( *.c |sed s/\ // |cut -d ':' -f 2)
 
 for i in $test_group;

@@ -22,6 +22,7 @@ vtest: clean_obj gen_test
 	$(TEST_DIR)run.sh -v
 
 gen_test:
+	@rm -f $(TEST_DIR)AllTests.c
 	@$(TEST_DIR)gen_main.sh > $(TEST_DIR)AllTests.c
 
 clean_obj:
