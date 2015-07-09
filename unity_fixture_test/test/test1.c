@@ -2,32 +2,30 @@
 
 static int data = -1;
 
-TEST_GROUP(mygroup);
+TEST_GROUP(test1);
 
-TEST_SETUP(mygroup)
+TEST_SETUP(test1)
 {
     data = 0;
 }
 
-TEST_TEAR_DOWN(mygroup)
+TEST_TEAR_DOWN(test1)
 {
     data = -1;
 }
 
-TEST(mygroup, test1)
+TEST(test1, test1)
 {
     TEST_ASSERT_EQUAL_INT(0, data);
 }
 
-TEST(mygroup, test2)
+TEST(test1, test2)
 {
     TEST_ASSERT_EQUAL_INT(5, data);
-    data = 5;
 }
 
-TEST(mygroup, test3)
+TEST(test1, test3)
 {
-    data = 6;
-    TEST_ASSERT_EQUAL_INT(7, data);
+	TEST_IGNORE();
 }
 
