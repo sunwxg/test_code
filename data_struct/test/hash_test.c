@@ -21,6 +21,9 @@ static int match(const void *data1, const void *data2)
 }
 
 static HASH h;
+static struct dict d1 = {1, 1};
+static struct dict d2 = {21, 2};
+static struct dict temp = {31, 3};
 
 TEST_GROUP(hash_test);
 
@@ -50,7 +53,6 @@ TEST(hash_test, hash_init)
 
 TEST(hash_test, hash_insertOneDataSizeEqualOne)
 {
-	struct dict d1 = {1, 1};
 	hash_table_insert(&h, (void *)&d1);
 
 	TEST_ASSERT_EQUAL_INT(1, hash_size(&h));
@@ -60,7 +62,6 @@ TEST(hash_test, hash_insertOneDataSizeEqualOne)
 
 TEST(hash_test, hash_insertOneDataValue)
 {
-	struct dict d1 = {1, 1};
 	hash_table_insert(&h, (void *)&d1);
 
 	int value = ((struct dict *)(h.table[1].head->data))->value;
@@ -71,8 +72,6 @@ TEST(hash_test, hash_insertOneDataValue)
 
 TEST(hash_test, hash_insertTwoDataValue)
 {
-	struct dict d1 = {1, 1};
-	struct dict d2 = {11, 2};
 	hash_table_insert(&h, (void *)&d1);
 	hash_table_insert(&h, (void *)&d2);
 
@@ -87,7 +86,6 @@ TEST(hash_test, hash_insertTwoDataValue)
 
 TEST(hash_test, hash_insertTwoSameData)
 {
-	struct dict d1 = {1, 1};
 	hash_table_insert(&h, (void *)&d1);
 	hash_table_insert(&h, (void *)&d1);
 
@@ -98,9 +96,6 @@ TEST(hash_test, hash_insertTwoSameData)
 
 TEST(hash_test, hash_removeNonDataHashSize)
 {
-	struct dict d1 = {1, 1};
-	struct dict d2 = {11, 2};
-	struct dict temp = {31, 3};
 	hash_table_insert(&h, (void *)&d1);
 	hash_table_insert(&h, (void *)&d2);
 
@@ -114,9 +109,6 @@ TEST(hash_test, hash_removeNonDataHashSize)
 
 TEST(hash_test, hash_removeNonDataReturnValueNULL)
 {
-	struct dict d1 = {1, 1};
-	struct dict d2 = {21, 2};
-	struct dict temp = {31, 3};
 	hash_table_insert(&h, (void *)&d1);
 	hash_table_insert(&h, (void *)&d2);
 
