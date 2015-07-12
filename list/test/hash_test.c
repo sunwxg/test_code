@@ -86,3 +86,35 @@ TEST(hash_test, hash_insertTwoSameData)
 
 	hash_table_remove(&h, (void *)&d1);
 }
+
+TEST(hash_test, hash_removeNonDataHashSize)
+{
+	int d1 = 2;
+	int d2 = 3;
+	int temp = 1;
+	hash_table_insert(&h, (void *)&d1);
+	hash_table_insert(&h, (void *)&d2);
+
+	hash_table_remove(&h, (void *)&temp);
+
+	TEST_ASSERT_EQUAL_INT(2, hash_size(&h));
+
+	hash_table_remove(&h, (void *)&d1);
+	hash_table_remove(&h, (void *)&d2);
+}
+
+TEST(hash_test, hash_removeNonDataReturnValueNULL)
+{
+	int d1 = 2;
+	int d2 = 3;
+	int temp = 1;
+	hash_table_insert(&h, (void *)&d1);
+	hash_table_insert(&h, (void *)&d2);
+
+	void *result = hash_table_remove(&h, (void *)&temp);
+
+	TEST_ASSERT_EQUAL_PTR(NULL, result);
+
+	hash_table_remove(&h, (void *)&d1);
+	hash_table_remove(&h, (void *)&d2);
+}

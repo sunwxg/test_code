@@ -64,13 +64,13 @@ void * hash_table_remove(HASH * hash_table, void * data)
 
 	while (element != NULL) {
 		if (hash_table->match(element->data, data) == 1) {
-			//hash_size(hash_table)--;
-			//return list_rm_element(list, element);
+			hash_size(hash_table)--;
+			return list_rm_element(list, element);
 		}
 		element = element->next;
 	}
 
-	list_rm_next(list);
-	hash_size(hash_table)--;
+//	list_rm_next(list);
+//	hash_size(hash_table)--;
 	return NULL;
 }

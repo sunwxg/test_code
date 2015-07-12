@@ -10,6 +10,8 @@ TEST_GROUP_RUNNER(hash_test)
 	RUN_TEST_CASE(hash_test,hash_insertOneDataValue);
 	RUN_TEST_CASE(hash_test,hash_insertTwoDataValue);
 	RUN_TEST_CASE(hash_test,hash_insertTwoSameData);
+	RUN_TEST_CASE(hash_test,hash_removeNonDataHashSize);
+	RUN_TEST_CASE(hash_test,hash_removeNonDataReturnValueNULL);
 }
 
 TEST_GROUP_RUNNER(list_test)
