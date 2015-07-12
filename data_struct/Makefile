@@ -38,6 +38,7 @@ clean_obj:
 	@rm -f $(TEST_BUILD_DIR)*
 
 clean: clean_obj
+	@rm -f cscope.* tags
 	
 tags:
 	@rm -f cscope.* tags
