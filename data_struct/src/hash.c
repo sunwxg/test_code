@@ -41,7 +41,7 @@ int hash_table_insert(HASH * hash_table, void * data)
 
 	while (element != NULL) {
 		if (hash_table->match(element->data, data) == 1)
-			return 0;
+			return 1;
 		element = element->next;
 	}
 
@@ -70,7 +70,5 @@ void * hash_table_remove(HASH * hash_table, void * data)
 		element = element->next;
 	}
 
-//	list_rm_next(list);
-//	hash_size(hash_table)--;
 	return NULL;
 }
