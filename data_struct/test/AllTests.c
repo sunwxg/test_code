@@ -4,7 +4,7 @@
 
 TEST_GROUP_RUNNER(bitree_test)
 {
-	RUN_TEST_CASE(bitree_test,bitreeInit);
+	RUN_TEST_CASE(bitree_test,bitree_insert_leftTreeSize);
 }
 
 TEST_GROUP_RUNNER(hash_test)

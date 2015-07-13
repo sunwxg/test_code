@@ -7,25 +7,27 @@ struct dict {
 	int value;
 };
 
-static int match(const void *data1, const void *data2)
-{
-	const struct dict *a = data1;
-	const struct dict *b = data2;
-	return (a->key == b->key) ? 1 : 0;
-}
-
+static BITREE b;
+static struct bitree_node *d1, *d2;
 
 TEST_GROUP(bitree_test);
 
 TEST_SETUP(bitree_test)
 {
+	bitree_init(&b);
+	d1 = malloc(sizeof(struct bitree_node));
+	d2 = malloc(sizeof(struct bitree_node));
+
 }
 
 TEST_TEAR_DOWN(bitree_test)
 {
+	bitree_destroy(&b);
+	free(d1);
+	free(d2);
 }
 
-TEST(bitree_test, bitreeInit)
+TEST(bitree_test, bitree_insert_leftTreeSize)
 {
-	TEST_FAIL_MESSAGE("start here");
+	
 }
