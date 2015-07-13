@@ -2,6 +2,11 @@
 
 #include "unity_fixture.h"
 
+TEST_GROUP_RUNNER(bitree_test)
+{
+	RUN_TEST_CASE(bitree_test,bitreeInit);
+}
+
 TEST_GROUP_RUNNER(hash_test)
 {
 	RUN_TEST_CASE(hash_test,hash_tableIsEmpty);
@@ -37,6 +42,7 @@ TEST_GROUP_RUNNER(list_test)
 
 static void runAllTests(void)
 {
+	RUN_TEST_GROUP(bitree_test);
 	RUN_TEST_GROUP(hash_test);
 	RUN_TEST_GROUP(list_test);
 }
