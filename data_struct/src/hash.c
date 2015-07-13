@@ -4,7 +4,7 @@
 int hash_table_init(HASH * hash_table, int buckets, int (*h)(const void *key),
 		int (*match)(const void *data1, const void *data2))
 {
-	hash_table->table = (LIST *)malloc(buckets * sizeof(LIST));
+	hash_table->table = (LIST *)calloc(buckets, sizeof(LIST));
 
 	if (hash_table->table == NULL)
 		return -1;

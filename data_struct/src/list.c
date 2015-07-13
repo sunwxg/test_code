@@ -11,8 +11,7 @@ int list_add_next(LIST * l, void *data)
 {
 	struct listElement *element;
 
-	element = (struct listElement *)malloc(sizeof(struct listElement));
-	memset(element, 0, sizeof(struct listElement));
+	element = (struct listElement *)calloc(1, sizeof(struct listElement));
 
 	if (element == NULL)
 		return -1;

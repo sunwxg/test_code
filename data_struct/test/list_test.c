@@ -10,8 +10,8 @@ TEST_GROUP(list_test);
 TEST_SETUP(list_test)
 {
 	list_init(&list);
-	d1 = malloc(sizeof(int));
-	d2 = malloc(sizeof(int));
+	d1 = calloc(1, sizeof(int));
+	d2 = calloc(1, sizeof(int));
 	*d1 = 10;
 	*d2 = 20;
 }

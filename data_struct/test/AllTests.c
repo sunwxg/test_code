@@ -17,6 +17,7 @@ TEST_GROUP_RUNNER(hash_test)
 	RUN_TEST_CASE(hash_test,hash_insertTwoSameData);
 	RUN_TEST_CASE(hash_test,hash_removeNonDataHashSize);
 	RUN_TEST_CASE(hash_test,hash_removeNonDataReturnValueNULL);
+	RUN_TEST_CASE(hash_test,free_fun);
 }
 
 TEST_GROUP_RUNNER(list_test)

@@ -1,6 +1,6 @@
 C_COMPILER=gcc
 
-CFLAGS=-std=c99
+CFLAGS+=-std=c99
 CFLAGS+= -Wall
 
 TEST_DIR=test/

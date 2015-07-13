@@ -57,6 +57,7 @@ TEST(hash_test, hash_insertOneDataSizeEqualOne)
 
 	TEST_ASSERT_EQUAL_INT(1, hash_size(&h));
 
+	//printfK
 	hash_table_remove(&h, (void *)&d1);
 }
 
@@ -120,3 +121,8 @@ TEST(hash_test, hash_removeNonDataReturnValueNULL)
 	hash_table_remove(&h, (void *)&d2);
 }
 
+TEST(hash_test, free_fun)
+{
+	struct dict *t1 = calloc(1, sizeof(struct dict));
+	free(t1);
+}
