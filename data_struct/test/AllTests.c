@@ -2,9 +2,19 @@
 
 #include "unity_fixture.h"
 
+TEST_GROUP_RUNNER(bitree_find_test)
+{
+	RUN_TEST_CASE(bitree_find_test,bitree_find_find);
+}
+
 TEST_GROUP_RUNNER(bitree_test)
 {
 	RUN_TEST_CASE(bitree_test,bitree_insert_leftTreeSize);
+	RUN_TEST_CASE(bitree_test,bitree_insert_leftDataValue);
+	RUN_TEST_CASE(bitree_test,bitree_insert_rightTreeSize);
+	RUN_TEST_CASE(bitree_test,bitree_insert_rightDataValue);
+	RUN_TEST_CASE(bitree_test,bitree_remove_leftNonData);
+	RUN_TEST_CASE(bitree_test,bitree_remove_rightNonData);
 }
 
 TEST_GROUP_RUNNER(hash_test)
@@ -43,6 +53,7 @@ TEST_GROUP_RUNNER(list_test)
 
 static void runAllTests(void)
 {
+	RUN_TEST_GROUP(bitree_find_test);
 	RUN_TEST_GROUP(bitree_test);
 	RUN_TEST_GROUP(hash_test);
 	RUN_TEST_GROUP(list_test);
