@@ -5,6 +5,7 @@
 TEST_GROUP_RUNNER(bitree_find_test)
 {
 	RUN_TEST_CASE(bitree_find_test,bitree_find_preorder);
+	RUN_TEST_CASE(bitree_find_test,bitree_find_in);
 }
 
 TEST_GROUP_RUNNER(bitree_test)

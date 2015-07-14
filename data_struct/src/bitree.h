@@ -28,7 +28,10 @@ void * bitree_remove_left(BITREE *b, struct bitree_node *node);
 
 void * bitree_remove_right(BITREE *b, struct bitree_node *node);
 
-struct bitree_node * bitree_find(BITREE *b, void *data,
+struct bitree_node * bitree_find_pre(BITREE *b, void *data,
+		int (*compare)(void *data1, void *data2));
+
+struct bitree_node * bitree_find_in(BITREE *b, void *data,
 		int (*compare)(void *data1, void *data2));
 
 #define bitree_size(b) ((b)->size)
