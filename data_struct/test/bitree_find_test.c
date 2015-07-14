@@ -65,3 +65,17 @@ TEST(bitree_find_test, bitree_find_in)
 	struct dict temp = {6, 10};
 	TEST_ASSERT_EQUAL_PTR(node[5], bitree_find_in(&btree, (void *)&temp, &compare));
 }
+
+TEST(bitree_find_test, bitree_find_post)
+{
+	struct dict temp = {6, 10};
+	TEST_ASSERT_EQUAL_PTR(node[5], bitree_find_post(&btree, (void *)&temp, &compare));
+}
+
+TEST(bitree_find_test, bitree_find)
+{
+	struct dict temp = {10, 10};
+	TEST_ASSERT_EQUAL_PTR(NULL, bitree_find_pre(&btree, (void *)&temp, &compare));
+	TEST_ASSERT_EQUAL_PTR(NULL, bitree_find_in(&btree, (void *)&temp, &compare));
+	TEST_ASSERT_EQUAL_PTR(NULL, bitree_find_post(&btree, (void *)&temp, &compare));
+}

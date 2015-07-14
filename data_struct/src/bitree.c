@@ -139,7 +139,6 @@ bitree_preorder(BITREE *b, struct bitree_node *node, void *data,
 	if (node == NULL)
 		return NULL;
 	
-//	printf("node is %d\n", *(int *)(node->data));
 	if (compare(node->data, data) == 1)
 		return node;
 
@@ -148,6 +147,8 @@ bitree_preorder(BITREE *b, struct bitree_node *node, void *data,
 		return temp;
 
 	temp = bitree_preorder(b, node->right, data, compare);
+	if (temp != NULL)
+		return temp;
 
 	return temp;
 }
@@ -171,11 +172,12 @@ bitree_inorder(BITREE *b, struct bitree_node *node, void *data,
 	if (temp != NULL)
 		return temp;
 
-//	printf("node is %d\n", *(int *)(node->data));
 	if (compare(node->data, data) == 1)
 		return node;
 
 	temp = bitree_inorder(b, node->right, data, compare);
+	if (temp != NULL)
+		return temp;
 
 	return temp;
 }
@@ -184,4 +186,34 @@ struct bitree_node * bitree_find_in(BITREE *b, void *data,
 		int (*compare)(void *data1, void *data2))
 {
 	return bitree_inorder(b, b->root, data, compare);
+}
+
+static struct bitree_node *
+bitree_postorder(BITREE *b, struct bitree_node *node, void *data,
+		int (*compare)(void *d1, void *d2))
+{
+	struct bitree_node *temp;
+
+	if (node == NULL)
+		return NULL;
+	
+	temp = bitree_postorder(b, node->left, data, compare);
+	if (temp != NULL)
+		return temp;
+
+
+	temp = bitree_postorder(b, node->right, data, compare);
+	if (temp != NULL)
+		return temp;
+
+	if (compare(node->data, data) == 1)
+		return node;
+
+	return temp;
+}
+
+struct bitree_node * bitree_find_post(BITREE *b, void *data,
+		int (*compare)(void *data1, void *data2))
+{
+	return bitree_postorder(b, b->root, data, compare);
 }
