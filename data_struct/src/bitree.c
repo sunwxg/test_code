@@ -133,13 +133,13 @@ static struct bitree_node *
 bitree_preorder(BITREE *b, struct bitree_node *node, void *data,
 		int (*compare)(void *d1, void *d2))
 {
-	struct dict *d1 = (struct dict *)node->data;
+	//struct dict *d1 = (struct dict *)node->data;
 	struct bitree_node *temp;
 
 	if (node == NULL)
 		return NULL;
 	
-	printf("node is %d\n", d1->key);
+	//printf("node is %d\n", d1->key);
 	if (compare(node->data, data) == 1)
 		return node;
 

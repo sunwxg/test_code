@@ -18,9 +18,18 @@ struct bitree {
 
 void bitree_init(BITREE *b);
 int bitree_destroy(BITREE *b);
-int bitree_insert_left(BITREE *b, struct bitree_node *node, void *data);
+struct bitree_node * 
+bitree_insert_left(BITREE *b, struct bitree_node *node, void *data);
+
+struct bitree_node * 
+bitree_insert_right(BITREE *b, struct bitree_node *node, void *data);
 
 void * bitree_remove_left(BITREE *b, struct bitree_node *node);
+
+void * bitree_remove_right(BITREE *b, struct bitree_node *node);
+
+struct bitree_node * bitree_find(BITREE *b, void *data,
+		int (*compare)(void *data1, void *data2));
 
 #define bitree_size(b) ((b)->size)
 #define bitree_is_leaf(node) (((node)->left == NULL) && ((node)->right == NULL))
