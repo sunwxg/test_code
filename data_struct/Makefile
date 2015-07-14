@@ -18,9 +18,6 @@ all: clean_obj gen_test default run
 
 vtest: clean_obj gen_test default vrun
 
-debug:
-	@CFLAGS=-g $(MAKE)
-
 default:
 	@$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(TEST_SRC_FILES) $(SRC_FILES) \
 		-o $(TEST_BUILD_DIR)$(TEST_TARGET)
