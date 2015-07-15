@@ -26,7 +26,7 @@ TEST_GROUP(bitree_test);
 
 TEST_SETUP(bitree_test)
 {
-	bitree_init(&btree);
+	bitree_init(&btree, &compare);
 }
 
 TEST_TEAR_DOWN(bitree_test)

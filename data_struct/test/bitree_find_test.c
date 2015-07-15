@@ -31,7 +31,7 @@ TEST_GROUP(bitree_find_test);
 TEST_SETUP(bitree_find_test)
 {
 
-	bitree_init(&btree);
+	bitree_init(&btree, compare);
 	node[0] = bitree_insert_left(&btree, node[0], (void *)&d1);
 	node[1] = bitree_insert_left(&btree, node[0], (void *)&d2);
 	node[2] = bitree_insert_right(&btree, node[0], (void *)&d3);
@@ -57,25 +57,25 @@ TEST_TEAR_DOWN(bitree_find_test)
 TEST(bitree_find_test, bitree_find_preorder)
 {
 	struct dict temp = {6, 10};
-	TEST_ASSERT_EQUAL_PTR(node[5], bitree_find_pre(&btree, (void *)&temp, &compare));
+	TEST_ASSERT_EQUAL_PTR(node[5], bitree_find_pre(&btree, (void *)&temp));
 }	
 
 TEST(bitree_find_test, bitree_find_in)
 {
 	struct dict temp = {6, 10};
-	TEST_ASSERT_EQUAL_PTR(node[5], bitree_find_in(&btree, (void *)&temp, &compare));
+	TEST_ASSERT_EQUAL_PTR(node[5], bitree_find_in(&btree, (void *)&temp));
 }
 
 TEST(bitree_find_test, bitree_find_post)
 {
 	struct dict temp = {6, 10};
-	TEST_ASSERT_EQUAL_PTR(node[5], bitree_find_post(&btree, (void *)&temp, &compare));
+	TEST_ASSERT_EQUAL_PTR(node[5], bitree_find_post(&btree, (void *)&temp));
 }
 
 TEST(bitree_find_test, bitree_find)
 {
 	struct dict temp = {10, 10};
-	TEST_ASSERT_EQUAL_PTR(NULL, bitree_find_pre(&btree, (void *)&temp, &compare));
-	TEST_ASSERT_EQUAL_PTR(NULL, bitree_find_in(&btree, (void *)&temp, &compare));
-	TEST_ASSERT_EQUAL_PTR(NULL, bitree_find_post(&btree, (void *)&temp, &compare));
+	TEST_ASSERT_EQUAL_PTR(NULL, bitree_find_pre(&btree, (void *)&temp));
+	TEST_ASSERT_EQUAL_PTR(NULL, bitree_find_in(&btree, (void *)&temp));
+	TEST_ASSERT_EQUAL_PTR(NULL, bitree_find_post(&btree, (void *)&temp));
 }

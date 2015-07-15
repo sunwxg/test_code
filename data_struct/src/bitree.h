@@ -12,11 +12,12 @@ struct bitree_node {
 struct bitree {
 	int size;
 	struct bitree_node *root;
+	int (*compare)(void *data1, void *data2);
 };
 
 #define BITREE struct bitree
 
-void bitree_init(BITREE *b);
+void bitree_init(BITREE *b, int (*compare)(void *data1, void *data2));
 int bitree_destroy(BITREE *b);
 
 struct bitree_node * 
@@ -29,14 +30,11 @@ void * bitree_remove_left(BITREE *b, struct bitree_node *node);
 
 void * bitree_remove_right(BITREE *b, struct bitree_node *node);
 
-struct bitree_node * bitree_find_pre(BITREE *b, void *data,
-		int (*compare)(void *data1, void *data2));
+struct bitree_node * bitree_find_pre(BITREE *b, void *data);
 
-struct bitree_node * bitree_find_in(BITREE *b, void *data,
-		int (*compare)(void *data1, void *data2));
+struct bitree_node * bitree_find_in(BITREE *b, void *data);
 
-struct bitree_node * bitree_find_post(BITREE *b, void *data,
-		int (*compare)(void *data1, void *data2));
+struct bitree_node * bitree_find_post(BITREE *b, void *data);
 
 #define bitree_size(b) ((b)->size)
 #define bitree_is_leaf(node) (((node)->left == NULL) && ((node)->right == NULL))
