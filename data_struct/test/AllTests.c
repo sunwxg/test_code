@@ -5,6 +5,9 @@
 TEST_GROUP_RUNNER(bi_search_tree_test)
 {
 	RUN_TEST_CASE(bi_search_tree_test,BiSearchTreeInit);
+	RUN_TEST_CASE(bi_search_tree_test,BiSearchTreeInsertRight);
+	RUN_TEST_CASE(bi_search_tree_test,BiSearchTreeInsertLeft);
+	RUN_TEST_CASE(bi_search_tree_test,BiSearchTreeSearch);
 }
 
 TEST_GROUP_RUNNER(bitree_find_test)

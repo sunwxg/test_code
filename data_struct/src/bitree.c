@@ -93,6 +93,9 @@ void * bitree_remove_left(BITREE *b, struct bitree_node *node)
 	if (bitree_size(b) == 0)
 		return NULL;
 	
+	if (node->left == NULL)
+		return NULL;
+
 	if (!bitree_is_leaf(node->left))
 		return NULL;	
 
@@ -129,7 +132,6 @@ void * bitree_remove_right(BITREE *b, struct bitree_node *node)
 
 	return data;
 }
-struct dict;
 
 static struct bitree_node *
 bitree_preorder(BITREE *b, struct bitree_node *node, void *data)
