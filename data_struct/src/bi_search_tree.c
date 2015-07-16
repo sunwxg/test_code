@@ -5,12 +5,6 @@ void bi_search_tree_init(BI_S_TREE *b, int (*compare)(void *d1, void *d2))
 	bitree_init(b, compare);
 }
 
-static struct bitree_node * min(BI_S_TREE *b, struct bitree_node *node)
-{
-	if (node->left == NULL)
-		return node;
-	return min(b, node->left);
-}
 
 static int insert_left(BITREE *b, struct bitree_node *node, void *data)
 {
@@ -48,7 +42,7 @@ int bi_search_tree_insert(BI_S_TREE *b, void *data)
 }
 
 static struct bitree_node * search_node(BI_S_TREE *b, 
-	struct bitree_node *pre_node, struct bitree_node *node, void *data)
+	struct bitree_node *parent_node, struct bitree_node *node, void *data)
 {
 	int result;
 	
@@ -58,13 +52,23 @@ static struct bitree_node * search_node(BI_S_TREE *b,
 	result = b->compare(data, node->data);
 
 	if (result == 0)
-		return pre_node;
+		return parent_node;
 
 	if (result > 0 )
 		return search_node(b, node, node->right, data);
 	
 	return search_node(b, node, node->left, data);
 }
+
+
+static struct bitree_node * min(BI_S_TREE *b, struct bitree_node *node, struct bitree_node **parent_node)
+{
+	if (node->left == NULL)
+		return node;
+	*parent_node = node;
+	return min(b, node->left, &(*parent_node));
+}
+
 static void free_node(BI_S_TREE *b, struct bitree_node *node)
 {
 	free(node);
@@ -74,21 +78,26 @@ static void free_node(BI_S_TREE *b, struct bitree_node *node)
 
 static void successor_replace_node(BI_S_TREE *b, struct bitree_node **p_node)
 {
-	struct bitree_node *successor;
+	struct bitree_node *successor, *parent_successor;
 	struct bitree_node *node = *p_node;
 	
 	if (node->right == NULL) {
-		if (node->left == NULL) {
-			*p_node = NULL;
-		} else {
-			*p_node = node->left;
-		}
+		*p_node = node->left;
 		free_node(b, node);
 		return;
 	}
 
 	if (node->right != NULL) {
-		successor = min(b, (node->right));
+		if (node->right->left == NULL) {
+			*p_node = node->right;
+			free_node(b, node);
+			return;
+		}
+
+		successor = min(b, node->right, &parent_successor);
+
+		parent_successor->left = NULL;
+
 		successor->left = node->left;
 		successor->right = node->right;
 

@@ -10,6 +10,10 @@ TEST_GROUP_RUNNER(bi_search_tree_test)
 	RUN_TEST_CASE(bi_search_tree_test,BiSearchTreeSearch);
 	RUN_TEST_CASE(bi_search_tree_test,BiSearchTreeMin);
 	RUN_TEST_CASE(bi_search_tree_test,BiSearchTreeRemoveNonChild);
+	RUN_TEST_CASE(bi_search_tree_test,BiSearchTreeRemoveLeftChild);
+	RUN_TEST_CASE(bi_search_tree_test,BiSearchTreeRemoveRightChild);
+	RUN_TEST_CASE(bi_search_tree_test,BiSearchTreeRemoveRightAnyChild);
+	RUN_TEST_CASE(bi_search_tree_test,BiSearchTreeRemoveRightAnyChild2);
 }
 
 TEST_GROUP_RUNNER(bitree_find_test)
