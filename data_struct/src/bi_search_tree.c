@@ -5,6 +5,13 @@ void bi_search_tree_init(BI_S_TREE *b, int (*compare)(void *d1, void *d2))
 	bitree_init(b, compare);
 }
 
+static struct bitree_node * min(BI_S_TREE *b, struct bitree_node *node)
+{
+	if (node->left == NULL)
+		return node;
+	return min(b, node->left);
+}
+
 static int insert_left(BITREE *b, struct bitree_node *node, void *data)
 {
 	if (bitree_insert_left(b, node, data) == NULL)
@@ -58,32 +65,65 @@ static struct bitree_node * search_node(BI_S_TREE *b,
 	
 	return search_node(b, node, node->left, data);
 }
+static void free_node(BI_S_TREE *b, struct bitree_node *node)
+{
+	free(node);
+	bitree_size(b)--;
+	return;
+}
+
+static void successor_replace_node(BI_S_TREE *b, struct bitree_node **p_node)
+{
+	struct bitree_node *successor;
+	struct bitree_node *node = *p_node;
+	
+	if (node->right == NULL) {
+		if (node->left == NULL) {
+			*p_node = NULL;
+		} else {
+			*p_node = node->left;
+		}
+		free_node(b, node);
+		return;
+	}
+
+	if (node->right != NULL) {
+		successor = min(b, (node->right));
+		successor->left = node->left;
+		successor->right = node->right;
+
+		*p_node = successor;
+
+		free_node(b, node);
+		return;
+	}
+}
 
 int bi_search_tree_remove(BI_S_TREE *b, void *data)
 {
-	struct bitree_node *node = search_node(b, NULL, b->root, data);
+	struct bitree_node *p_node = search_node(b, NULL, b->root, data);
 	
-	if (node == NULL)
+	if (p_node == NULL)
 		return -1;
 
-	if ((node->left != NULL) && (b->compare(data, node->left->data) ==0)) {
-		bitree_remove_left(b, node);
-		return 0;
+	if ((p_node->left != NULL) && (b->compare(data, p_node->left->data) == 0)) {
+		successor_replace_node(b, &(p_node->left));
+	} else {
+		successor_replace_node(b, &(p_node->right));
 	}
 
-	bitree_remove_right(b, node);
 	return 0;
 }
 
 void * bi_search_tree_search(BI_S_TREE *b, void *data)
 {
-	struct bitree_node *node = search_node(b, NULL, b->root, data);
+	struct bitree_node *p_node = search_node(b, NULL, b->root, data);
 	
-	if (node == NULL)
+	if (p_node == NULL)
 		return NULL;
 
-	if ((node->left != NULL) && (b->compare(data, node->left->data) ==0))
-		return node->left->data;
+	if ((p_node->left != NULL) && (b->compare(data, p_node->left->data) ==0))
+		return p_node->left->data;
 
-	return node->right->data;
+	return p_node->right->data;
 }

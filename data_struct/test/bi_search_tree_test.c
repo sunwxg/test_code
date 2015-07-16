@@ -57,7 +57,9 @@ TEST(bi_search_tree_test, BiSearchTreeInsertRight)
 
 	TEST_ASSERT_EQUAL_PTR(&d2, b.root->right->data);
 
-	bi_search_tree_remove(&b, &d2);
+	//bi_search_tree_remove(&b, &d2);
+	free(b.root->right);
+	b.size--;
 }
 
 TEST(bi_search_tree_test, BiSearchTreeInsertLeft)
@@ -67,7 +69,9 @@ TEST(bi_search_tree_test, BiSearchTreeInsertLeft)
 
 	TEST_ASSERT_EQUAL_PTR(&d1, b.root->left->data);
 
-	bi_search_tree_remove(&b, &d1);
+	//bi_search_tree_remove(&b, &d1);
+	free(b.root->left);
+	b.size--;
 }
 
 
@@ -80,6 +84,34 @@ TEST(bi_search_tree_test, BiSearchTreeSearch)
 	TEST_ASSERT_EQUAL_PTR(&d1, bi_search_tree_search(&b, &d1));
 	TEST_ASSERT_EQUAL_PTR(&d3, bi_search_tree_search(&b, &d3));
 
-	bi_search_tree_remove(&b, &d3);
-	bi_search_tree_remove(&b, &d1);
+	//bi_search_tree_remove(&b, &d3);
+	//bi_search_tree_remove(&b, &d1);
+	free(b.root->left);
+	free(b.root->right);
+	b.size = 1;
+}
+
+TEST(bi_search_tree_test, BiSearchTreeMin)
+{
+	bi_search_tree_insert(&b, &d3);
+	bi_search_tree_insert(&b, &d2);
+	bi_search_tree_insert(&b, &d1);
+
+	TEST_ASSERT_EQUAL_INT(1, ((struct dict *)(min(&b, b.root)->data))->key);
+	
+	free(b.root->left->left);
+	free(b.root->left);
+	b.size = 1;
+}
+
+TEST(bi_search_tree_test, BiSearchTreeRemoveNonChild)
+{
+	bi_search_tree_insert(&b, &d3);
+	bi_search_tree_insert(&b, &d2);
+
+	bi_search_tree_remove(&b, &d2);
+
+	TEST_ASSERT_EQUAL_INT(1, b.size);
+	TEST_ASSERT_EQUAL_PTR(NULL, b.root->left);
+	
 }
