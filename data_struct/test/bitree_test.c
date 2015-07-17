@@ -51,6 +51,7 @@ TEST(bitree_test, bitree_insert_leftDataValue)
 
 	TEST_ASSERT_EQUAL_INT(1, ((struct dict *)btree.root->data)->value);
 	TEST_ASSERT_EQUAL_INT(2, ((struct dict *)(btree.root->left->data))->value);
+	TEST_ASSERT_EQUAL_PTR(&d1, btree.root->left->parent->data);
 
 	bitree_remove_left(&btree, btree.root);
 }
@@ -61,6 +62,8 @@ TEST(bitree_test, bitree_insert_rightTreeSize)
 	bitree_insert_right(&btree, btree.root, (void *)&d2);
 
 	TEST_ASSERT_EQUAL_INT(2, bitree_size(&btree));
+	TEST_ASSERT_EQUAL_PTR(&d1, btree.root->right->parent->data);
+
 	
 	bitree_remove_right(&btree, btree.root);
 }

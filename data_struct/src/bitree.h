@@ -6,6 +6,7 @@
 struct bitree_node {
 	void *data;
 	int bf;
+	struct bitree_node *parent;
 	struct bitree_node *left;
 	struct bitree_node *right;
 };

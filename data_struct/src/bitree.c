@@ -53,6 +53,7 @@ bitree_insert_left(BITREE *b, struct bitree_node *node, void *data)
 		return NULL;
 
 	position->data = data;
+	position->parent = node;
 		
 	node->left = position;
 	bitree_size(b)++;
@@ -76,6 +77,7 @@ bitree_insert_right(BITREE *b, struct bitree_node *node, void *data)
 		return NULL;
 
 	position->data = data;
+	position->parent = node;
 		
 	node->right = position;
 	bitree_size(b)++;
