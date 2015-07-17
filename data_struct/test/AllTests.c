@@ -14,6 +14,7 @@ TEST_GROUP_RUNNER(bi_search_tree_test)
 	RUN_TEST_CASE(bi_search_tree_test,BiSearchTreeRemoveRightChild);
 	RUN_TEST_CASE(bi_search_tree_test,BiSearchTreeRemoveRightAnyChild);
 	RUN_TEST_CASE(bi_search_tree_test,BiSearchTreeRemoveRightAnyChild2);
+	RUN_TEST_CASE(bi_search_tree_test,BiSearchTreeRemoveRootNode);
 }
 
 TEST_GROUP_RUNNER(bitree_find_test)

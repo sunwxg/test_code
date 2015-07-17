@@ -184,3 +184,23 @@ TEST(bi_search_tree_test, BiSearchTreeRemoveRightAnyChild2)
 	bi_search_tree_remove(&b, &d5);
 	bi_search_tree_remove(&b, &d6);
 }
+
+TEST(bi_search_tree_test, BiSearchTreeRemoveRootNode)
+{
+	bi_search_tree_insert(&b, &d1);
+	bi_search_tree_insert(&b, &d2);
+	bi_search_tree_insert(&b, &d6);
+	bi_search_tree_insert(&b, &d5);
+	bi_search_tree_insert(&b, &d4);
+	bi_search_tree_insert(&b, &d3);
+
+	bi_search_tree_remove(&b, &d1);
+
+	TEST_ASSERT_EQUAL_INT(5, b.size);
+	TEST_ASSERT_EQUAL_PTR(&d2, b.root->data);
+	
+	bi_search_tree_remove(&b, &d3);
+	bi_search_tree_remove(&b, &d4);
+	bi_search_tree_remove(&b, &d5);
+	bi_search_tree_remove(&b, &d6);
+}
