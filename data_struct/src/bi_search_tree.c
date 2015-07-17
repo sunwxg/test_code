@@ -65,7 +65,8 @@ static int search_node(BI_S_TREE *b, struct bitree_node ***parent_link,
 }
 
 
-static struct bitree_node * min(BI_S_TREE *b, struct bitree_node *node, struct bitree_node **parent_node)
+static struct bitree_node * min(BI_S_TREE *b, struct bitree_node *node,
+		struct bitree_node **parent_node)
 {
 	if (node->left == NULL)
 		return node;
@@ -80,47 +81,47 @@ static void free_node(BI_S_TREE *b, struct bitree_node *node)
 	return;
 }
 
-static void successor_replace_node(BI_S_TREE *b, struct bitree_node **parent_node)
+static struct bitree_node * 
+successor_replace_node(BI_S_TREE *b, struct bitree_node *node)
 {
 	struct bitree_node *successor, *parent_successor;
-	struct bitree_node *node = *parent_node;
-	
-	if (node->right == NULL) {
-		*parent_node = node->left;
-		free_node(b, node);
-		return;
-	}
 
-	if (node->right != NULL) {
-		if (node->right->left == NULL) {
-			*parent_node = node->right;
-			free_node(b, node);
-			return;
-		}
+	successor = min(b, node->right, &parent_successor);
 
-		successor = min(b, node->right, &parent_successor);
+	parent_successor->left = NULL;
 
-		parent_successor->left = NULL;
+	successor->left = node->left;
+	successor->right = node->right;
 
-		successor->left = node->left;
-		successor->right = node->right;
-
-		*parent_node = successor;
-
-		free_node(b, node);
-		return;
-	}
+	return successor;
 }
 
 int bi_search_tree_remove(BI_S_TREE *b, void *data)
 {
+	struct bitree_node *node;
 	struct bitree_node **parent_link = &(b->root);
 
 	if (!search_node(b, &parent_link, b->root, data))
 		return -1;
+	node = *parent_link;
 
-	successor_replace_node(b, parent_link);
+	if (node->right == NULL) {
+		*parent_link = node->left;
+		free_node(b, node);
+		return 0;
+	}
 
+	if (node->right != NULL) {
+		if (node->right->left == NULL) {
+			*parent_link = node->right;
+			free_node(b, node);
+			return 0;
+		}
+
+		*parent_link = successor_replace_node(b, node);
+
+		free_node(b, node);
+	}
 	return 0;
 }
 
