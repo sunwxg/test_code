@@ -4,7 +4,8 @@
 
 TEST_GROUP_RUNNER(avl_tree_test)
 {
-	RUN_TEST_CASE(avl_tree_test,avl_tree_test_init);
+	RUN_TEST_CASE(avl_tree_test,avltreeInsert);
+	RUN_TEST_CASE(avl_tree_test,avltreeRemove);
 }
 
 TEST_GROUP_RUNNER(bi_search_tree_test)
