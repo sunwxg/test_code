@@ -42,7 +42,7 @@ TEST_SETUP(bi_search_tree_test)
 
 TEST_TEAR_DOWN(bi_search_tree_test)
 {
-	bitree_destroy(&b);
+	bi_search_tree_destroy(&b);
 }
 
 TEST(bi_search_tree_test, BiSearchTreeInit)

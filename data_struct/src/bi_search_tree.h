@@ -7,6 +7,8 @@
 
 void bi_search_tree_init(BI_S_TREE *b, int (*compare)(void *d1, void *d2));
 
+int bi_search_tree_destroy(BI_S_TREE *b);
+
 /* bi_search_tree_insert
  * success: return 0
  * fail   : return -1

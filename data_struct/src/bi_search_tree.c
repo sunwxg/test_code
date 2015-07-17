@@ -5,6 +5,10 @@ void bi_search_tree_init(BI_S_TREE *b, int (*compare)(void *d1, void *d2))
 	bitree_init(b, compare);
 }
 
+int bi_search_tree_destroy(BI_S_TREE *b)
+{
+	return bitree_destroy(b);
+}
 
 static int insert_left(BITREE *b, struct bitree_node *node, void *data)
 {
