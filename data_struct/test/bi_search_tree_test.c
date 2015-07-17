@@ -31,7 +31,6 @@ static struct dict d5 = {5, 2};
 static struct dict d6 = {6, 2};
 static struct dict d7 = {7, 2};
 static struct dict d8 = {8, 2};
-//static struct bitree_node *node[7] = {NULL};
 
 TEST_GROUP(bi_search_tree_test);
 
