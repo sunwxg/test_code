@@ -51,15 +51,15 @@ static int search_node(BI_S_TREE *b, struct bitree_node ***parent_link,
 
 	result = b->compare(data, node->data);
 
-	if (result == 0) {
+	if (result == 0)
 		return 1;
-	}
 
 	if (result > 0 ) {
 		*parent_link = &(node->right);
 		return search_node(b, parent_link, node->right, data);
 	}
 	
+	//result < 0
 	*parent_link = &(node->left);
 	return search_node(b, parent_link, node->left, data);
 }
@@ -70,6 +70,7 @@ static struct bitree_node * min(BI_S_TREE *b, struct bitree_node *node,
 {
 	if (node->left == NULL)
 		return node;
+
 	*parent_node = node;
 	return min(b, node->left, &(*parent_node));
 }
