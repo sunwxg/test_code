@@ -104,6 +104,11 @@ TEST(avl_tree_test, avltreeAddRoateRight)
 	TEST_ASSERT_EQUAL_PTR(&d6, b.root->right->data);
 	TEST_ASSERT_EQUAL_PTR(&d4, b.root->right->left->data);
 
+	TEST_ASSERT_EQUAL_INT(2, b.root->height);
+	TEST_ASSERT_EQUAL_INT(0, b.root->left->height);
+	TEST_ASSERT_EQUAL_INT(1, b.root->right->height);
+	TEST_ASSERT_EQUAL_INT(0, b.root->right->left->height);
+
 	avltree_remove(&b, &d1);
 	avltree_remove(&b, &d3);
 	avltree_remove(&b, &d4);

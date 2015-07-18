@@ -32,7 +32,7 @@ static void update_height(struct bitree_node *node)
 	if (node->parent != NULL) {
 		if (node_height(node->parent) >= (node_height(node) + 1))
 			return;
-		node_height(node->parent)++;
+		node_height(node->parent) = node_height(node) + 1;
 		update_height(node->parent);
 	}
 }
@@ -55,7 +55,12 @@ static void roate_right(AVLTREE *b, struct bitree_node *node)
 
 	node->parent = node_left;
 
-	node_left->right->parent = node;
+	node->left->parent = node;
+	
+	node->height = 0;
+	node_left->height = 0;
+
+	update_height(node->left);
 
 	return;
 }
