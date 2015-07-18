@@ -121,8 +121,8 @@ int bi_search_tree_remove(BI_S_TREE *b, void *data)
 	if (node->right != NULL) {
 		if (node->right->left == NULL) {
 			*parent_link = node->right;
-			if (*parent_link != NULL)
-				(*parent_link)->parent = node->parent;
+			(*parent_link)->left = node->left;
+			(*parent_link)->parent = node->parent;
 			free_node(b, node);
 			return 0;
 		}
