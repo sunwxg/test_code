@@ -65,8 +65,37 @@ static void roate_right(AVLTREE *b, struct bitree_node *node)
 	return;
 }
 
-static void roate_left(struct bitree_node *node)
+/*    A              D
+ *     \            / \
+ *	D          A   F
+ *     / \          \
+ *    E   F          E
+ */
+static void roate_left(AVLTREE *b, struct bitree_node *node)
 {
+	struct bitree_node *A = node;
+	struct bitree_node *D = A->right;
+	struct bitree_node *E = D->left;
+	struct bitree_node *A_parent = A->parent;
+
+	if (A_parent == NULL) {
+		b->root = D;
+	} else {
+		A_parent->right = D;
+	}
+
+	A->right = E;
+	A->parent = D;
+
+	D->parent = A_parent;
+	D->left = A;
+
+	E->parent = A;
+	
+	A->height = 0;
+	D->height = 0;
+
+	update_height(E);
 
 	return;
 }
@@ -93,7 +122,7 @@ static void balance_tree(AVLTREE *b, struct bitree_node *node)
 		if (bf < -1) {
 			roate_right(b, parent_node);
 		} else if (bf > 1) {
-			roate_left(parent_node);
+			roate_left(b, parent_node);
 		}
 
 	}
