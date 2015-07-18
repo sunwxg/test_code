@@ -10,6 +10,8 @@ TEST_GROUP_RUNNER(avl_tree_test)
 	RUN_TEST_CASE(avl_tree_test,avltreeAddRemoveRoot);
 	RUN_TEST_CASE(avl_tree_test,avltreeAddRoateRight);
 	RUN_TEST_CASE(avl_tree_test,avltreeAddRoateLeft);
+	RUN_TEST_CASE(avl_tree_test,avltreeAddDoubleRoateLeft);
+	RUN_TEST_CASE(avl_tree_test,avltreeAddDoubleRoateRight);
 }
 
 TEST_GROUP_RUNNER(bi_search_tree_test)

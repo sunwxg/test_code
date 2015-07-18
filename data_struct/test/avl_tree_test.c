@@ -29,7 +29,7 @@ static struct dict d3 = {3, 2};
 static struct dict d4 = {4, 2};
 static struct dict d5 = {5, 2};
 static struct dict d6 = {6, 2};
-/*static struct dict d7 = {7, 2};*/
+static struct dict d7 = {7, 2};
 /*static struct dict d8 = {8, 2};*/
 
 TEST_GROUP(avl_tree_test);
@@ -136,4 +136,76 @@ TEST(avl_tree_test, avltreeAddRoateLeft)
 	avltree_remove(&b, &d3);
 	avltree_remove(&b, &d5);
 	avltree_remove(&b, &d4);
+}
+
+TEST(avl_tree_test, avltreeAddDoubleRoateLeft)
+{
+	avltree_insert(&b, &d2);
+	avltree_insert(&b, &d1);
+	avltree_insert(&b, &d6);
+	avltree_insert(&b, &d4);
+	avltree_insert(&b, &d7);
+	avltree_insert(&b, &d3);
+	avltree_insert(&b, &d5);
+
+	roate_double_left(&b, b.root);
+
+	TEST_ASSERT_EQUAL_PTR(&d4, b.root->data);
+	TEST_ASSERT_EQUAL_PTR(&d2, b.root->left->data);
+	TEST_ASSERT_EQUAL_PTR(&d6, b.root->right->data);
+	TEST_ASSERT_EQUAL_PTR(&d3, b.root->left->right->data);
+	TEST_ASSERT_EQUAL_PTR(&d1, b.root->left->left->data);
+	TEST_ASSERT_EQUAL_PTR(&d5, b.root->right->left->data);
+	TEST_ASSERT_EQUAL_PTR(&d7, b.root->right->right->data);
+
+	TEST_ASSERT_EQUAL_INT(2, b.root->height);
+	TEST_ASSERT_EQUAL_INT(1, b.root->left->height);
+	TEST_ASSERT_EQUAL_INT(1, b.root->right->height);
+	TEST_ASSERT_EQUAL_INT(0, b.root->left->right->height);
+	TEST_ASSERT_EQUAL_INT(0, b.root->left->left->height);
+	TEST_ASSERT_EQUAL_INT(0, b.root->right->right->height);
+	TEST_ASSERT_EQUAL_INT(0, b.root->right->left->height);
+
+	avltree_remove(&b, &d3);
+	avltree_remove(&b, &d5);
+	avltree_remove(&b, &d4);
+	avltree_remove(&b, &d2);
+	avltree_remove(&b, &d6);
+	avltree_remove(&b, &d7);
+}
+
+TEST(avl_tree_test, avltreeAddDoubleRoateRight)
+{
+	avltree_insert(&b, &d6);
+	avltree_insert(&b, &d2);
+	avltree_insert(&b, &d1);
+	avltree_insert(&b, &d4);
+	avltree_insert(&b, &d5);
+	avltree_insert(&b, &d3);
+	avltree_insert(&b, &d7);
+
+	roate_double_right(&b, b.root);
+
+	TEST_ASSERT_EQUAL_PTR(&d4, b.root->data);
+	TEST_ASSERT_EQUAL_PTR(&d2, b.root->left->data);
+	TEST_ASSERT_EQUAL_PTR(&d6, b.root->right->data);
+	TEST_ASSERT_EQUAL_PTR(&d3, b.root->left->right->data);
+	TEST_ASSERT_EQUAL_PTR(&d1, b.root->left->left->data);
+	TEST_ASSERT_EQUAL_PTR(&d5, b.root->right->left->data);
+	TEST_ASSERT_EQUAL_PTR(&d7, b.root->right->right->data);
+
+	TEST_ASSERT_EQUAL_INT(2, b.root->height);
+	TEST_ASSERT_EQUAL_INT(1, b.root->left->height);
+	TEST_ASSERT_EQUAL_INT(1, b.root->right->height);
+	TEST_ASSERT_EQUAL_INT(0, b.root->left->right->height);
+	TEST_ASSERT_EQUAL_INT(0, b.root->left->left->height);
+	TEST_ASSERT_EQUAL_INT(0, b.root->right->right->height);
+	TEST_ASSERT_EQUAL_INT(0, b.root->right->left->height);
+
+	avltree_remove(&b, &d3);
+	avltree_remove(&b, &d5);
+	avltree_remove(&b, &d4);
+	avltree_remove(&b, &d2);
+	avltree_remove(&b, &d6);
+	avltree_remove(&b, &d7);
 }

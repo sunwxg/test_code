@@ -37,6 +37,19 @@ static void update_height(struct bitree_node *node)
 	}
 }
 
+static struct bitree_node ** parent_link(struct bitree_node *node)
+{
+	struct bitree_node *node_parent = node->parent;
+
+	if (node_parent == NULL)
+		return NULL;
+	
+	if (node_parent->left == node)
+		return &(node_parent->left);
+
+	return &(node_parent->right);
+}
+
 static void roate_right(AVLTREE *b, struct bitree_node *node)
 {
 	struct bitree_node *node_parent = node->parent;
@@ -67,7 +80,7 @@ static void roate_right(AVLTREE *b, struct bitree_node *node)
 
 /*    A              D
  *     \            / \
- *	D          A   F
+ *	D    --->  A   F
  *     / \          \
  *    E   F          E
  */
@@ -76,19 +89,19 @@ static void roate_left(AVLTREE *b, struct bitree_node *node)
 	struct bitree_node *A = node;
 	struct bitree_node *D = A->right;
 	struct bitree_node *E = D->left;
-	struct bitree_node *A_parent = A->parent;
+	struct bitree_node **A_parent = parent_link(node);
 
 	if (A_parent == NULL) {
 		b->root = D;
 	} else {
-		A_parent->right = D;
+		(*A_parent) = D;
 	}
+
+	D->parent = A->parent;
+	D->left = A;
 
 	A->right = E;
 	A->parent = D;
-
-	D->parent = A_parent;
-	D->left = A;
 
 	E->parent = A;
 	
@@ -100,15 +113,109 @@ static void roate_left(AVLTREE *b, struct bitree_node *node)
 	return;
 }
 
-static void roate_double_right(struct bitree_node *node)
+/*    A                A                 E        
+ *   / \              / \               / \
+ *  B   C    --->    E   C      --->   B   A  
+ * / \              / \               / \ / \
+ *D   E            B   G             D  F G  C 
+ *   / \          / \
+ *  F   G        D   F               
+ */
+static void roate_double_right(AVLTREE *b, struct bitree_node *node)
 {
+	struct bitree_node *A = node;
+	struct bitree_node *B = A->left;
+	struct bitree_node *E = B->right;
+	struct bitree_node *F = E->left;
+	struct bitree_node *G = E->right;
+	struct bitree_node **A_parent = parent_link(node);
 
+	//roate left
+	A->left = E;
+
+	B->parent = E;
+	B->right = F;
+
+	E->parent = A;
+	E->left = B;
+
+	F->parent = B;
+
+	//roate right
+	if (A_parent == NULL) {
+		b->root = E;
+	} else {
+		(*A_parent) = E;
+	}
+
+	E->parent = A->parent;
+	E->right = A;
+
+	A->parent = E;
+	A->left = G;
+
+	G->parent = A;
+
+	//update height
+	A->height = 0;
+	B->height = 0;
+	E->height = 0;
+	
+	update_height(F);
+	update_height(G);
 	return;
 }
 
-static void roate_double_left(struct bitree_node *node)
+/*    A                A                 D        
+ *   / \              / \               / \
+ *  B   C    --->    B   D      --->   A   C  
+ *     / \              / \           / \ / \
+ *    D   E            F   C         B  F G  E 
+ *   / \                  / \
+ *  F   G                G   E               
+ */
+static void roate_double_left(AVLTREE *b, struct bitree_node *node)
 {
+	struct bitree_node *A = node;
+	struct bitree_node *C = A->right;
+	struct bitree_node *D = C->left;
+	struct bitree_node *F = D->left;
+	struct bitree_node *G = D->right;
+	struct bitree_node **A_parent = parent_link(node);
 
+	//roate right
+	A->right = D;
+
+	D->parent = A;
+	D->right = C;
+
+	C->parent = D;
+	C->left = G;
+
+	G->parent = C;
+
+	//roate left
+	if (A_parent == NULL) {
+		b->root = D;
+	} else {
+		(*A_parent) = D;
+	}
+	
+	D->parent = A->parent;
+	D->left = A;
+
+	A->parent = D;
+	A->right = F;
+
+	F->parent = A;
+
+	//update height
+	A->height = 0;
+	D->height = 0;
+	C->height = 0;
+	
+	update_height(F);
+	update_height(G);
 	return;
 }
 
