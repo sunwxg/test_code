@@ -29,12 +29,15 @@ search_insert(AVLTREE *b, struct bitree_node *node, void *data)
 
 static void update_height(struct bitree_node *node)
 {
-	if (node->parent != NULL) {
-		if (node_height(node->parent) >= (node_height(node) + 1))
-			return;
-		node_height(node->parent) = node_height(node) + 1;
-		update_height(node->parent);
-	}
+	if (node->parent == NULL)
+		return;
+
+	if (node_height(node->parent) >= (node_height(node) + 1))
+		return;
+
+	node_height(node->parent) = node_height(node) + 1;
+	update_height(node->parent);
+	return;
 }
 
 static void update_child_height(struct bitree_node *node)
