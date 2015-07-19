@@ -11,7 +11,9 @@ TEST_GROUP_RUNNER(avl_tree_test)
 	RUN_TEST_CASE(avl_tree_test,avltreeAddRoateRight);
 	RUN_TEST_CASE(avl_tree_test,avltreeAddRoateLeft);
 	RUN_TEST_CASE(avl_tree_test,avltreeAddDoubleRoateLeft);
+	RUN_TEST_CASE(avl_tree_test,avltreeAddDoubleRoateLeft2);
 	RUN_TEST_CASE(avl_tree_test,avltreeAddDoubleRoateRight);
+	RUN_TEST_CASE(avl_tree_test,avltreeAddDoubleRoateRight2);
 }
 
 TEST_GROUP_RUNNER(bi_search_tree_test)

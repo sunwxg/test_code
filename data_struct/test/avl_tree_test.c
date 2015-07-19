@@ -174,6 +174,26 @@ TEST(avl_tree_test, avltreeAddDoubleRoateLeft)
 	avltree_remove(&b, &d7);
 }
 
+TEST(avl_tree_test, avltreeAddDoubleRoateLeft2)
+{
+	avltree_insert(&b, &d2);
+	avltree_insert(&b, &d6);
+	avltree_insert(&b, &d4);
+
+	roate_double_left(&b, b.root);
+
+	TEST_ASSERT_EQUAL_PTR(&d4, b.root->data);
+	TEST_ASSERT_EQUAL_PTR(&d2, b.root->left->data);
+	TEST_ASSERT_EQUAL_PTR(&d6, b.root->right->data);
+
+	TEST_ASSERT_EQUAL_INT(1, b.root->height);
+	TEST_ASSERT_EQUAL_INT(0, b.root->left->height);
+	TEST_ASSERT_EQUAL_INT(0, b.root->right->height);
+
+	avltree_remove(&b, &d4);
+	avltree_remove(&b, &d2);
+}
+
 TEST(avl_tree_test, avltreeAddDoubleRoateRight)
 {
 	avltree_insert(&b, &d6);
@@ -208,4 +228,24 @@ TEST(avl_tree_test, avltreeAddDoubleRoateRight)
 	avltree_remove(&b, &d2);
 	avltree_remove(&b, &d6);
 	avltree_remove(&b, &d7);
+}
+
+TEST(avl_tree_test, avltreeAddDoubleRoateRight2)
+{
+	avltree_insert(&b, &d6);
+	avltree_insert(&b, &d2);
+	avltree_insert(&b, &d4);
+
+	roate_double_right(&b, b.root);
+
+	TEST_ASSERT_EQUAL_PTR(&d4, b.root->data);
+	TEST_ASSERT_EQUAL_PTR(&d2, b.root->left->data);
+	TEST_ASSERT_EQUAL_PTR(&d6, b.root->right->data);
+
+	TEST_ASSERT_EQUAL_INT(1, b.root->height);
+	TEST_ASSERT_EQUAL_INT(0, b.root->left->height);
+	TEST_ASSERT_EQUAL_INT(0, b.root->right->height);
+
+	avltree_remove(&b, &d2);
+	avltree_remove(&b, &d6);
 }
