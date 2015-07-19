@@ -1,7 +1,5 @@
 #include "avl_tree.h"
 
-#define node_height(node) ((node)->height)
-
 void avltree_init(AVLTREE *b, int (*compare)(void *d1, void *d2))
 {
 	bitree_init(b, compare);
@@ -32,10 +30,10 @@ static void update_height(struct bitree_node *node)
 	if (node->parent == NULL)
 		return;
 
-	if (node_height(node->parent) >= (node_height(node) + 1))
+	if (node->parent->height >= (node->height + 1))
 		return;
 
-	node_height(node->parent) = node_height(node) + 1;
+	node->parent->height = node->height + 1;
 	update_height(node->parent);
 	return;
 }
@@ -246,20 +244,46 @@ static void roate_double_left(AVLTREE *b, struct bitree_node *node)
 	return;
 }
 
+static int node_height(struct bitree_node *node)
+{
+	if (node == NULL)
+		return 0;
+	return node->height;
+}
+
+static int node_bf(struct bitree_node *node)
+{
+	return node_height(node->left) - node_height(node->right);
+}
+
 static void balance_tree(AVLTREE *b, struct bitree_node *node)
 {
-	struct bitree_node *parent_node = node->parent;
-	int bf;
+	int bf, child_bf;
 
-	while (parent_node != NULL) {
-		bf = (parent_node->left->height) - (parent_node->right->height);
-		if (bf < -1) {
-			roate_right(b, parent_node);
-		} else if (bf > 1) {
-			roate_left(b, parent_node);
-		}
+	if (node == NULL)
+		return;
 
+	bf = node_bf(node);
+
+	if (bf > 1) {
+
+		child_bf = node_bf(node->left);
+		if (child_bf >= 0)
+			roate_right(b, node);
+		else
+			roate_double_right(b, node);
+
+	} else if (bf < -1) {
+
+		child_bf = node_bf(node->right);
+		if (child_bf <= 0)
+			roate_left(b, node);
+		else
+			roate_double_left(b, node);
 	}
+
+	balance_tree(b, node->parent);
+
 	return;
 }
 
@@ -275,6 +299,8 @@ int avltree_insert(AVLTREE *b, void *data)
 	node = search_insert(b, b->root, data);
 
 	update_height(node);
+
+	balance_tree(b, node);
 
 	return 0;
 }

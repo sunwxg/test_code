@@ -14,6 +14,14 @@ TEST_GROUP_RUNNER(avl_tree_test)
 	RUN_TEST_CASE(avl_tree_test,avltreeAddDoubleRoateLeft2);
 	RUN_TEST_CASE(avl_tree_test,avltreeAddDoubleRoateRight);
 	RUN_TEST_CASE(avl_tree_test,avltreeAddDoubleRoateRight2);
+	RUN_TEST_CASE(avl_tree_test,avltreeBalanceTreeDoubleRight);
+	RUN_TEST_CASE(avl_tree_test,avltreeBalanceTreeDoubleLeft);
+	RUN_TEST_CASE(avl_tree_test,avltreeBalanceTreeRight);
+	RUN_TEST_CASE(avl_tree_test,avltreeBalanceTreeLeft);
+	RUN_TEST_CASE(avl_tree_test,avltreeInsertLeft);
+	RUN_TEST_CASE(avl_tree_test,avltreeInsertRight);
+	RUN_TEST_CASE(avl_tree_test,avltreeInsertDoubleLeft);
+	RUN_TEST_CASE(avl_tree_test,avltreeInsertDoubleRight);
 }
 
 TEST_GROUP_RUNNER(bi_search_tree_test)
