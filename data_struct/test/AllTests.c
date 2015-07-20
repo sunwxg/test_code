@@ -22,6 +22,9 @@ TEST_GROUP_RUNNER(avl_tree_test)
 	RUN_TEST_CASE(avl_tree_test,avltreeInsertRight);
 	RUN_TEST_CASE(avl_tree_test,avltreeInsertDoubleLeft);
 	RUN_TEST_CASE(avl_tree_test,avltreeInsertDoubleRight);
+	RUN_TEST_CASE(avl_tree_test,avltreeRemoveHeightValue);
+	RUN_TEST_CASE(avl_tree_test,avltreeRemoveOneValue);
+	RUN_TEST_CASE(avl_tree_test,avltreeInsert100Data);
 }
 
 TEST_GROUP_RUNNER(bi_search_tree_test)

@@ -1,6 +1,7 @@
 #include "unity_fixture.h"
 #include "avl_tree.h"
 #include "avl_tree.c"
+#include <stdlib.h>
 
 struct dict {
 	int key;
@@ -30,7 +31,16 @@ static struct dict d4 = {4, 2};
 static struct dict d5 = {5, 2};
 static struct dict d6 = {6, 2};
 static struct dict d7 = {7, 2};
-/*static struct dict d8 = {8, 2};*/
+static struct dict d8 = {8, 2};
+static struct dict d14 = {14, 2};
+static struct dict d12 = {12, 2};
+static struct dict d17 = {17, 2};
+static struct dict d18 = {18, 2};
+static struct dict d13 = {13, 2};
+static struct dict d9 = {9, 2};
+static struct dict d10 = {10, 2};
+
+static struct dict d[1000];
 
 TEST_GROUP(avl_tree_test);
 
@@ -192,9 +202,9 @@ TEST(avl_tree_test, avltreeAddDoubleRoateLeft2)
 	TEST_ASSERT_EQUAL_PTR(&d2, b.root->left->data);
 	TEST_ASSERT_EQUAL_PTR(&d6, b.root->right->data);
 
-	TEST_ASSERT_EQUAL_INT(1, b.root->height);
-	TEST_ASSERT_EQUAL_INT(0, b.root->left->height);
-	TEST_ASSERT_EQUAL_INT(0, b.root->right->height);
+	TEST_ASSERT_EQUAL_INT(2, b.root->height);
+	TEST_ASSERT_EQUAL_INT(1, b.root->left->height);
+	TEST_ASSERT_EQUAL_INT(1, b.root->right->height);
 
 	avltree_remove(&b, &d4);
 	avltree_remove(&b, &d2);
@@ -250,9 +260,9 @@ TEST(avl_tree_test, avltreeAddDoubleRoateRight2)
 	TEST_ASSERT_EQUAL_PTR(&d2, b.root->left->data);
 	TEST_ASSERT_EQUAL_PTR(&d6, b.root->right->data);
 
-	TEST_ASSERT_EQUAL_INT(1, b.root->height);
-	TEST_ASSERT_EQUAL_INT(0, b.root->left->height);
-	TEST_ASSERT_EQUAL_INT(0, b.root->right->height);
+	TEST_ASSERT_EQUAL_INT(2, b.root->height);
+	TEST_ASSERT_EQUAL_INT(1, b.root->left->height);
+	TEST_ASSERT_EQUAL_INT(1, b.root->right->height);
 
 	avltree_remove(&b, &d2);
 	avltree_remove(&b, &d6);
@@ -492,4 +502,74 @@ TEST(avl_tree_test, avltreeInsertDoubleRight)
 	avltree_remove(&b, &d2);
 	avltree_remove(&b, &d6);
 	avltree_remove(&b, &d7);
+}
+
+TEST(avl_tree_test, avltreeRemoveHeightValue)
+{
+	avltree_insert(&b, &d2);
+	avltree_insert(&b, &d1);
+	avltree_insert(&b, &d3);
+	avltree_insert(&b, &d4);
+
+	avltree_remove(&b, &d3);
+	TEST_ASSERT_EQUAL_PTR(&d2, b.root->data);
+	TEST_ASSERT_EQUAL_PTR(&d1, b.root->left->data);
+	TEST_ASSERT_EQUAL_PTR(&d4, b.root->right->data);
+
+	TEST_ASSERT_EQUAL_INT(2, b.root->height);
+	TEST_ASSERT_EQUAL_INT(1, b.root->left->height);
+	TEST_ASSERT_EQUAL_INT(1, b.root->right->height);
+
+	avltree_remove(&b, &d1);
+	avltree_remove(&b, &d4);
+}
+
+TEST(avl_tree_test, avltreeRemoveOneValue)
+{
+	avltree_insert(&b, &d8);
+	avltree_insert(&b, &d5);
+	avltree_insert(&b, &d14);
+	avltree_insert(&b, &d6);
+	avltree_insert(&b, &d3);
+	avltree_insert(&b, &d12);
+	avltree_insert(&b, &d17);
+	avltree_insert(&b, &d2);
+	avltree_insert(&b, &d13);
+	avltree_insert(&b, &d9);
+	avltree_insert(&b, &d18);
+	avltree_insert(&b, &d10);
+
+	avltree_remove(&b, &d8);
+
+	avltree_remove(&b, &d5);
+	avltree_remove(&b, &d6);
+	avltree_remove(&b, &d3);
+	avltree_remove(&b, &d2);
+	avltree_remove(&b, &d14);
+	avltree_remove(&b, &d12);
+	avltree_remove(&b, &d17);
+	avltree_remove(&b, &d13);
+	avltree_remove(&b, &d9);
+	avltree_remove(&b, &d10);
+	avltree_remove(&b, &d18);
+}
+
+TEST(avl_tree_test, avltreeInsert100Data)
+{
+	int size = 1000;
+
+	for (int i = 1; i <= size; i++) {
+		d[i-1].key = i;
+		d[i-1].value = i;
+		avltree_insert(&b, &d[i-1]);
+	}
+
+	for (int i = 1; b.size>3; i++) {
+		int k = rand()%size;
+
+		avltree_remove(&b, &d[k]);
+	}
+
+	for (int i = 1; i <= size; i++)
+		avltree_remove(&b, &d[i-1]);
 }

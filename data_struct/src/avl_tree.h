@@ -2,6 +2,7 @@
 #define __AVL_TREE_H 1
 
 #include "bi_search_tree.h"
+#include "bi_search_tree_internal.h"
 
 typedef BITREE AVLTREE;
 

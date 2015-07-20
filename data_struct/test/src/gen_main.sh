@@ -4,6 +4,10 @@ if [ -z "$FILTER" ]; then
 	FILTER='.'
 fi
 
+if [ -z "$FILTER_RUNNER" ]; then
+	FILTER_RUNNER='.'
+fi
+
 cd test
 
 echo "// File is generated automatically. Don't edit it."
@@ -18,7 +22,7 @@ for i in $test_group;
 do
 	echo "TEST_GROUP_RUNNER($i)"
 	echo "{"
-	test_case=$(grep ^TEST\($i *.c |sed s/\ // |cut -d ':' -f 2 |sed s/TEST/RUN_TEST_CASE/)
+	test_case=$(grep ^TEST\($i *.c |sed s/\ // |cut -d ':' -f 2 |sed s/TEST/RUN_TEST_CASE/ |grep "$FILTER_RUNNER")
 	for k in $test_case;
 	do
 		echo "	"$k";"

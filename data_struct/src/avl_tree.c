@@ -25,15 +25,25 @@ search_insert(AVLTREE *b, struct bitree_node *node, void *data)
 	}
 }
 
+static int max(int a, int b)
+{
+	return (a >= b) ? a : b;
+}
+
+static int node_height(struct bitree_node *node)
+{
+	if (node == NULL)
+		return 0;
+	return node->height;
+}
+
 static void update_height(struct bitree_node *node)
 {
-	if (node->parent == NULL)
+	if (node == NULL)
 		return;
 
-	if (node->parent->height >= (node->height + 1))
-		return;
-
-	node->parent->height = node->height + 1;
+	node->height = 
+		max(node_height(node->left), node_height(node->right)) + 1;
 	update_height(node->parent);
 	return;
 }
@@ -244,13 +254,6 @@ static void roate_double_left(AVLTREE *b, struct bitree_node *node)
 	return;
 }
 
-static int node_height(struct bitree_node *node)
-{
-	if (node == NULL)
-		return 0;
-	return node->height;
-}
-
 static int node_bf(struct bitree_node *node)
 {
 	return node_height(node->left) - node_height(node->right);
@@ -287,6 +290,15 @@ static void balance_tree(AVLTREE *b, struct bitree_node *node)
 	return;
 }
 
+static void update_height_balance(AVLTREE *b, struct bitree_node *node)
+{
+	update_height(node);
+
+	balance_tree(b, node);
+
+	return;
+}
+
 int avltree_insert(AVLTREE *b, void *data)
 {
 	struct bitree_node *node;
@@ -298,14 +310,70 @@ int avltree_insert(AVLTREE *b, void *data)
 
 	node = search_insert(b, b->root, data);
 
-	update_height(node);
-
-	balance_tree(b, node);
+	update_height_balance(b, node);
 
 	return 0;
 }
 
+static void node_no_right(AVLTREE *b, struct bitree_node *node,
+			struct bitree_node **parent_link)
+{
+	*parent_link = node->left;
+
+	if (node->left != NULL) {
+		node->left->parent = node->parent;
+		update_height_balance(b, node->left);
+	} else {
+		update_height_balance(b, node->parent);
+	}
+
+	free_node(b, node);
+
+}
+
+static void node_right_no_left(AVLTREE *b, struct bitree_node *node,
+			struct bitree_node **parent_link)
+{
+	*parent_link = node->right;
+
+	node->right->left = node->left;
+	node->right->parent = node->parent;
+
+	if (node->left != NULL)
+		node->left->parent = node->right;
+
+	update_height_balance(b, node->right);
+	free_node(b, node);
+
+}
+
 int avltree_remove(AVLTREE *b, void *data)
 {
-	return bi_search_tree_remove(b, data);
+	struct bitree_node *node, *successor;
+	struct bitree_node **parent_link = &(b->root);
+
+	if (!search_node(b, &parent_link, b->root, data))
+		return -1;
+	node = *parent_link;
+
+	if (node->right == NULL) {
+		node_no_right(b, node, parent_link);
+		return 0;
+	}
+
+	if (node->right != NULL) {
+		if (node->right->left == NULL) {
+			node_right_no_left(b, node, parent_link);
+			return 0;
+		}
+
+		successor = successor_replace_node(b, node);
+
+		*parent_link = successor;
+		successor->parent = node->parent;
+
+		update_height_balance(b, successor);
+		free_node(b, node);
+	}
+	return 0;
 }
