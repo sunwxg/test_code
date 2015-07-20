@@ -379,16 +379,14 @@ int avltree_remove(AVLTREE *b, void *data)
 		return -1;
 	node = *parent_link;
 
-	if (node->right == NULL) {
+	if (node->right == NULL)
 		node_no_right(b, node);
-		return 0;
-	}
-
-	if (node->right != NULL) {
+	else {
 		if (node->right->left == NULL)
 			node_right_no_left(b, node);
 		else
 			node_right_left(b, node);
 	}
+
 	return 0;
 }
