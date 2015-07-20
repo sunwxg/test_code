@@ -315,10 +315,14 @@ int avltree_insert(AVLTREE *b, void *data)
 	return 0;
 }
 
-static void node_no_right(AVLTREE *b, struct bitree_node *node,
-			struct bitree_node **parent_link)
+static void node_no_right(AVLTREE *b, struct bitree_node *node)
 {
-	*parent_link = node->left;
+	struct bitree_node **parent = parent_link(node);
+
+	if (parent == NULL)
+		b->root = node->left;
+	else
+		*parent = node->left;
 
 	if (node->left != NULL) {
 		node->left->parent = node->parent;
@@ -331,10 +335,14 @@ static void node_no_right(AVLTREE *b, struct bitree_node *node,
 
 }
 
-static void node_right_no_left(AVLTREE *b, struct bitree_node *node,
-			struct bitree_node **parent_link)
+static void node_right_no_left(AVLTREE *b, struct bitree_node *node)
 {
-	*parent_link = node->right;
+	struct bitree_node **parent = parent_link(node);
+
+	if (parent == NULL)
+		b->root = node->right;
+	else
+		*parent = node->right;
 
 	node->right->left = node->left;
 	node->right->parent = node->parent;
@@ -344,12 +352,27 @@ static void node_right_no_left(AVLTREE *b, struct bitree_node *node,
 
 	update_height_balance(b, node->right);
 	free_node(b, node);
+}
 
+static void node_right_left(AVLTREE *b, struct bitree_node *node)
+{
+	struct bitree_node *successor = successor_replace_node(b, node);
+	struct bitree_node **parent = parent_link(node);
+
+	if (parent == NULL)
+		b->root = successor;
+	else
+		*parent = successor;
+
+	successor->parent = node->parent;
+
+	update_height_balance(b, successor);
+	free_node(b, node);
 }
 
 int avltree_remove(AVLTREE *b, void *data)
 {
-	struct bitree_node *node, *successor;
+	struct bitree_node *node;
 	struct bitree_node **parent_link = &(b->root);
 
 	if (!search_node(b, &parent_link, b->root, data))
@@ -357,23 +380,15 @@ int avltree_remove(AVLTREE *b, void *data)
 	node = *parent_link;
 
 	if (node->right == NULL) {
-		node_no_right(b, node, parent_link);
+		node_no_right(b, node);
 		return 0;
 	}
 
 	if (node->right != NULL) {
-		if (node->right->left == NULL) {
-			node_right_no_left(b, node, parent_link);
-			return 0;
-		}
-
-		successor = successor_replace_node(b, node);
-
-		*parent_link = successor;
-		successor->parent = node->parent;
-
-		update_height_balance(b, successor);
-		free_node(b, node);
+		if (node->right->left == NULL)
+			node_right_no_left(b, node);
+		else
+			node_right_left(b, node);
 	}
 	return 0;
 }
