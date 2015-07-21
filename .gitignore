@@ -2,9 +2,11 @@
 *.mod
 *.ko
 *.swp
+*.o
 cscope.*
 tags
 led_TDD/test/build/*
 unity_fixture_test/test/build/*
 cpputest_test/objs
 cpputest_test/lib
+build/*
