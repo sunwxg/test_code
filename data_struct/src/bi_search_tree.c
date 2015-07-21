@@ -45,8 +45,8 @@ int bi_search_tree_insert(BI_S_TREE *b, void *data)
 	return search_insert(b, b->root, data);
 }
 
-int search_node(BI_S_TREE *b, struct bitree_node ***parent_link,
-	struct bitree_node *node, void *data)
+int search_node(BI_S_TREE *b, struct bitree_node *node,
+		void *data, struct bitree_node ***parent_link)
 {
 	int result;
 	
@@ -60,12 +60,12 @@ int search_node(BI_S_TREE *b, struct bitree_node ***parent_link,
 
 	if (result > 0 ) {
 		*parent_link = &(node->right);
-		return search_node(b, parent_link, node->right, data);
+		return search_node(b, node->right, data, parent_link);
 	}
 	
 	//result < 0
 	*parent_link = &(node->left);
-	return search_node(b, parent_link, node->left, data);
+	return search_node(b, node->left, data, parent_link);
 }
 
 
@@ -114,7 +114,7 @@ int bi_search_tree_remove(BI_S_TREE *b, void *data)
 	struct bitree_node *node;
 	struct bitree_node **parent_link = &(b->root);
 
-	if (!search_node(b, &parent_link, b->root, data))
+	if (!search_node(b, b->root, data, &parent_link))
 		return -1;
 	node = *parent_link;
 
@@ -147,7 +147,7 @@ void * bi_search_tree_search(BI_S_TREE *b, void *data)
 {
 	struct bitree_node **parent_link = &(b->root);
 
-	if (!search_node(b, &parent_link, b->root, data))
+	if (!search_node(b, b->root, data, &parent_link))
 		return NULL;
 
 	return (*parent_link)->data;

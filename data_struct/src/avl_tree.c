@@ -375,7 +375,7 @@ int avltree_remove(AVLTREE *b, void *data)
 	struct bitree_node *node;
 	struct bitree_node **parent_link = &(b->root);
 
-	if (!search_node(b, &parent_link, b->root, data))
+	if (!search_node(b, b->root, data, &parent_link))
 		return -1;
 	node = *parent_link;
 
@@ -389,4 +389,10 @@ int avltree_remove(AVLTREE *b, void *data)
 	}
 
 	return 0;
+}
+
+void * avltree_search(AVLTREE *b, void *data)
+{
+
+	return NULL;
 }
