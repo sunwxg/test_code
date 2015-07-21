@@ -18,14 +18,16 @@ TARGET=mydatabase
 
 INC_DIRS=-I$(SRC_DIR) -I$(TEST_DIR)src
 
-all: clean_obj build gen_test test run
+all: clean_obj build gen_test c_testrun
 
-vtest: clean_obj gen_test test vrun
+test: clean_obj gen_test c_test run
+
+vtest: clean_obj gen_test c_test vrun
 
 debug:
 	@CFLAGS=-g $(MAKE)
 
-test:
+c_test:
 	@$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(TEST_SRC_FILES) \
 		-o $(TEST_BUILD_DIR)$(TEST_TARGET)
 
