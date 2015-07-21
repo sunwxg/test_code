@@ -393,6 +393,5 @@ int avltree_remove(AVLTREE *b, void *data)
 
 void * avltree_search(AVLTREE *b, void *data)
 {
-
-	return NULL;
+	return bi_search_tree_search(b, data);
 }
