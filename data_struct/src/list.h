@@ -2,6 +2,7 @@
 #define __LIST_H 1
 
 #include <string.h>
+#include <stdlib.h>
 
 struct listElement {
 	void * data;

@@ -2,6 +2,7 @@
 #define __BITREE_H 1
 
 #include <string.h>
+#include <stdlib.h>
 
 struct bitree_node {
 	void *data;

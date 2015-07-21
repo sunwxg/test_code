@@ -2,7 +2,7 @@
 #define __HASH_H 1
 
 #include "list.h"
-#include "string.h"
+#include <string.h>
 
 struct Hash_table {
 	int buckets;
