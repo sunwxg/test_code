@@ -18,7 +18,7 @@ TARGET=mydatabase
 
 INC_DIRS=-I$(SRC_DIR) -I$(TEST_DIR)src
 
-all: clean_obj build gen_test c_testrun
+all: clean_obj build gen_test c_test run
 
 test: clean_obj gen_test c_test run
 
