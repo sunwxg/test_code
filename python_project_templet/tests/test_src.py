@@ -1,11 +1,8 @@
-from nose.tools import *
-import src
+from src.hello import *
 
-def setup():
-    print "SETUP!"
+from _pytest.monkeypatch import *
 
-def teardown():
-    print "TEAR DOWN!"
-
-def test_basic():
-    print "I RAN!"
+def test_hello(capfd):
+    hello()
+    out, err = capfd.readouterr()
+    assert out == "hello!\n"
