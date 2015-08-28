@@ -1,0 +1,3 @@
+sudo pip install distribute
+sudo pip install nose
+sudo pip install virtualenv
