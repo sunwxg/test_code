@@ -1,48 +1,7 @@
-#define  _BSD_SOURCE 1
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <string.h>
-#include <syslog.h>
-#include <signal.h>
-#include <stdarg.h>
+#include "internal.h"
 
 static int ip = 10;
-
-void print_log(char * M, ...)
-{
-	char buf[2048], usrMsg[2048];
-	va_list argList;
-
-	va_start(argList, M);
-
-	vsnprintf(usrMsg, sizeof(buf), M, argList);
-	snprintf(buf, sizeof(buf), usrMsg, argList);
-	syslog(LOG_INFO, buf, argList);
-
-	va_end(argList);
-}
-
-void errMsg(char * M, ...)
-{
-	va_list argList;
-
-	va_start(argList, M);
-	syslog(LOG_ERR, M, argList);
-	va_end(argList);
-
-	exit(1);
-}
-
-void child_process(void)
-{
-	execlp("./run", "./run"); 
-
-	/*wget --server-response --timeout=2 www.google.com*/
-}
+int std_in, std_out;
 
 int check_status(void)
 {
@@ -79,10 +38,14 @@ int main(int argc, char *argv[])
 {
 	pid_t pid;
 	
-	daemon(0, 0);
+	std_in = dup(0);
+	std_out =dup(1);
+
+	/*daemon(0, 0);*/
 
 	pid = getpid();
 	print_log("parent pid=%d", pid);
+
 
 	int i = 3;
 	while (i--) {

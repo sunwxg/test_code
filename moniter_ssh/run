@@ -2,9 +2,9 @@
 
 count=1
 
-while true
+for i in {1..10}
 do
-	sleep 1
 	echo running: $count
 	count=$(($count+1))
+	sleep 1
 done

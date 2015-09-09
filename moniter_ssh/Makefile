@@ -12,7 +12,9 @@ TEST_SRC_FILES=$(wildcard $(TEST_DIR)src/*.c)
 TEST_SRC_FILES+=$(wildcard $(TEST_DIR)*.c)
 
 SRC_DIR=src/
-SRC_FILES=$(wildcard $(SRC_DIR)*.c)
+#SRC_FILES=$(wildcard $(SRC_DIR)*.c)
+SRC_FILES=$(SRC_DIR)internal.c
+SRCS=$(SRC_DIR)main.c $(SRC_DIR)internal.c $(SRC_DIR)child_process.c
 
 INC_DIRS=-I$(SRC_DIR) -I$(TEST_DIR)src
 
@@ -23,11 +25,11 @@ test: clean_obj gen_test default run
 vtest: clean_obj gen_test default vrun
 
 default:
-	@$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(TEST_SRC_FILES) $(SRC_FILES)\
-		-o $(TEST_BUILD_DIR)$(TEST_TARGET)
+	@$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(TEST_SRC_FILES) \
+	$(SRC_FILES) -o $(TEST_BUILD_DIR)$(TEST_TARGET)
 
 target:
-	@$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(SRC_FILES) -o $(TARGET)
+	@$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(SRCS) -o $(TARGET)
 
 .PHONY: run vrun gen_test clean_obj clean tags
 
