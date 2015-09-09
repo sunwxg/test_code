@@ -3,6 +3,8 @@ C_COMPILER=gcc
 CFLAGS=-std=c99
 CFLAGS+= -Wall
 
+TARGET=mssh
+
 TEST_DIR=test/
 TEST_BUILD_DIR=test/build/
 TEST_TARGET=test
@@ -14,7 +16,9 @@ SRC_FILES=$(wildcard $(SRC_DIR)*.c)
 
 INC_DIRS=-I$(SRC_DIR) -I$(TEST_DIR)src
 
-all: clean_obj gen_test default run
+all: target 
+
+test: clean_obj gen_test default run
 
 vtest: clean_obj gen_test default vrun
 
@@ -22,7 +26,10 @@ default:
 	@$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(TEST_SRC_FILES) $(SRC_FILES)\
 		-o $(TEST_BUILD_DIR)$(TEST_TARGET)
 
-.PHONY: run vrun gen_test clean_obj clean
+target:
+	@$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(SRC_FILES) -o $(TARGET)
+
+.PHONY: run vrun gen_test clean_obj clean tags
 
 run:
 	$(TEST_DIR)src/run.sh
@@ -39,3 +46,12 @@ clean_obj:
 
 clean: clean_obj
 	
+tags:
+	@echo "generating tags and cscopes"
+	@rm -f cscope.* tags
+	@find . -name "*.[hc]" > cscope.files
+	@find /usr/include/ -name "*.[ch]" -type f >>cscope.files
+	@find /usr/local/include -name "*.[ch]" -type f >>cscope.files
+	@find /usr/lib/gcc -name "*.[ch]" -type f >>cscope.files
+	@cscope -b -q -k
+	@ctags -L cscope.files

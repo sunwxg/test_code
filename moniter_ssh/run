@@ -1,0 +1,10 @@
+#!/bin/bash
+
+count=1
+
+while true
+do
+	sleep 1
+	echo running: $count
+	count=$(($count+1))
+done
