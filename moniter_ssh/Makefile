@@ -1,7 +1,7 @@
 C_COMPILER=gcc
 
 CFLAGS=-std=c99
-CFLAGS+= -Wall
+CFLAGS+= -Wall -g
 
 TARGET=mssh
 
@@ -14,7 +14,8 @@ TEST_SRC_FILES+=$(wildcard $(TEST_DIR)*.c)
 SRC_DIR=src/
 #SRC_FILES=$(wildcard $(SRC_DIR)*.c)
 SRC_FILES=$(SRC_DIR)internal.c
-SRCS=$(SRC_DIR)main.c $(SRC_DIR)internal.c $(SRC_DIR)child_process.c
+SRCS=$(SRC_DIR)main.c $(SRC_DIR)internal.c 
+SRC_LIB=-lutil
 
 INC_DIRS=-I$(SRC_DIR) -I$(TEST_DIR)src
 
@@ -29,7 +30,7 @@ default:
 	$(SRC_FILES) -o $(TEST_BUILD_DIR)$(TEST_TARGET)
 
 target:
-	@$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(SRCS) -o $(TARGET)
+	@$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(SRCS) -o $(TARGET) $(SRC_LIB)
 
 .PHONY: run vrun gen_test clean_obj clean tags
 

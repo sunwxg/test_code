@@ -1,66 +1,105 @@
 #include "internal.h"
 
-static int ip = 10;
-int std_in, std_out;
+#define CHECK_INTERNAL 60
+
+char *cmd, *cmd_check;
+char tmp_file[255];
 
 int check_status(void)
 {
-	int res;
-	/*char cmd[255];*/
+	char buf[255];
+	memset(buf, 0, sizeof(buf));
+	memset(tmp_file, 0, sizeof(tmp_file));
 
-	/*snprintf(cmd, sizeof(cmd), "ping -c 1 192.168.1.%d", ip);*/
-	ip--;
+	snprintf(tmp_file, sizeof(tmp_file), "/tmp/%d.pid", getpid());
 
-	/*res = system(cmd);*/
-	res = ip;
+	snprintf(buf, sizeof(buf), "%s %s", cmd_check, tmp_file);
 
-	return res;
+	return system(buf)>>8;
+}
+
+void kill_child(FILE *fp)
+{
+	char buf[255];
+	pid_t pid;
+
+	memset(buf, 0, sizeof(buf));
+	while (fgets(buf, sizeof(buf), fp) != 0) {
+		pid = atoi(buf);
+		print_log("pid=%d is killed\n", pid);
+		kill(pid, SIGKILL);
+		wait(NULL);
+	}
+}
+
+void child_process(void)
+{
+	print_log("start: %s", cmd);
+	execlp(cmd, cmd, (char *)NULL);
+	print_log("start %s fail", cmd);
 }
 
 void parent_process(pid_t pid)
 {
-	print_log("child pid=%d\n", pid);
+	FILE *fp;
+
+	print_log("main process: pid=%d", getpid());
 
 	while (1) {
-		sleep(1);
+		sleep(CHECK_INTERNAL);
 
-		if (check_status() == 0) {
-			kill(pid, SIGKILL);
-			wait(NULL);
+		if (check_status() != 0) {
+			sleep(1);
+			fp = fopen(tmp_file, "r");
+			if (fp != NULL) {
+				kill_child(fp);
+				fclose(fp);
+				break;
+			}
 
-			ip = 10;
-			break;
+			print_log("error open %s", tmp_file);
 		}
 	}
+
+	remove(tmp_file);
 }
 
-int main(int argc, char *argv[])
+void start(void)
 {
 	pid_t pid;
+	int master;
 	
-	std_in = dup(0);
-	std_out =dup(1);
+	daemon(0, 0);
 
-	/*daemon(0, 0);*/
+	while (1) {
+		pid = forkpty(&master, NULL, NULL, NULL);
 
-	pid = getpid();
-	print_log("parent pid=%d", pid);
-
-
-	int i = 3;
-	while (i--) {
-		pid = fork();
 		if (pid == 0) {
 			child_process();
 			break;
 
-		} else if (pid != 0) {
+		} else if (pid > 0) {
 			parent_process(pid);
 
 		} else {
 			print_log("fork error");
-			return 1;
+			exit(1);
 		}
+	}
+
+	exit(0);
+}
+
+int main(int argc, char *argv[])
+{
+	if ( argc != 3) {
+		printf("Usage: %s cmd check_cmd\n", argv[0]);
+		return 1;
+
+	} else {
+		cmd = argv[1];
+		cmd_check = argv[2];
+		start();
 	}
 
 	return 0;
