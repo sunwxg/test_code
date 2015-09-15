@@ -48,6 +48,8 @@ void parent_process(pid_t pid)
 
 	print_log("main process: pid=%d", getpid());
 
+	chdir("/tmp/");
+
 	while (1) {
 		sleep(interval);
 
