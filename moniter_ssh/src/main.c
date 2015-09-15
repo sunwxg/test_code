@@ -1,6 +1,7 @@
 #include "internal.h"
 
 #define CHECK_INTERNAL 60
+#define FAIL_CHECK_INTERNAL 6
 
 char *cmd, *cmd_check;
 char tmp_file[255];
@@ -15,7 +16,10 @@ int check_status(void)
 
 	snprintf(buf, sizeof(buf), "%s %s", cmd_check, tmp_file);
 
-	return system(buf)>>8;
+	int res = system(buf);
+
+	return res>>8;
+
 }
 
 void kill_child(FILE *fp)
@@ -34,31 +38,33 @@ void kill_child(FILE *fp)
 
 void child_process(void)
 {
-	print_log("start: %s", cmd);
 	execlp(cmd, cmd, (char *)NULL);
-	print_log("start %s fail", cmd);
 }
 
 void parent_process(pid_t pid)
 {
 	FILE *fp;
+	int interval = FAIL_CHECK_INTERNAL;
 
 	print_log("main process: pid=%d", getpid());
 
 	while (1) {
-		sleep(CHECK_INTERNAL);
+		sleep(interval);
 
-		if (check_status() != 0) {
-			sleep(1);
+		int res = check_status();
+		if (res != 0) {
 			fp = fopen(tmp_file, "r");
 			if (fp != NULL) {
 				kill_child(fp);
 				fclose(fp);
+				interval = FAIL_CHECK_INTERNAL;
 				break;
 			}
-
 			print_log("error open %s", tmp_file);
+			interval = 1;
+			break;
 		}
+		interval = CHECK_INTERNAL;
 	}
 
 	remove(tmp_file);
@@ -67,12 +73,11 @@ void parent_process(pid_t pid)
 void start(void)
 {
 	pid_t pid;
-	int master;
 	
-	daemon(0, 0);
+	daemon(1, 0);
 
 	while (1) {
-		pid = forkpty(&master, NULL, NULL, NULL);
+		pid = fork();
 
 		if (pid == 0) {
 			child_process();
