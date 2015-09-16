@@ -6,6 +6,14 @@
 char *cmd, *cmd_check;
 char tmp_file[255];
 
+void sig_term(int signo)
+{
+	remove(tmp_file);
+	print_log("signal terminal");
+	signal(SIGTERM, SIG_DFL);
+	kill(getpid(), SIGTERM);
+}
+
 int check_status(void)
 {
 	char buf[255];
@@ -28,6 +36,7 @@ void kill_child(FILE *fp)
 	pid_t pid;
 
 	memset(buf, 0, sizeof(buf));
+
 	while (fgets(buf, sizeof(buf), fp) != 0) {
 		pid = atoi(buf);
 		print_log("pid=%d is killed\n", pid);
@@ -48,7 +57,8 @@ void parent_process(pid_t pid)
 
 	print_log("main process: pid=%d", getpid());
 
-	chdir("/tmp/");
+	if (signal(SIGTERM, sig_term) == SIG_ERR)
+		print_log("can't register SIGTERM");
 
 	while (1) {
 		sleep(interval);
@@ -63,7 +73,7 @@ void parent_process(pid_t pid)
 				break;
 			}
 			print_log("error open %s", tmp_file);
-			interval = 1;
+			interval = FAIL_CHECK_INTERNAL;
 			break;
 		}
 		interval = CHECK_INTERNAL;
@@ -77,6 +87,8 @@ void start(void)
 	pid_t pid;
 	
 	daemon(1, 0);
+
+	chdir("/tmp/");
 
 	while (1) {
 		pid = fork();
