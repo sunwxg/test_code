@@ -9,7 +9,7 @@ char tmp_file[255];
 void sig_term(int signo)
 {
 	remove(tmp_file);
-	print_log("signal terminal");
+	print_log("remove tmp file");
 	signal(SIGTERM, SIG_DFL);
 	kill(getpid(), SIGTERM);
 }
