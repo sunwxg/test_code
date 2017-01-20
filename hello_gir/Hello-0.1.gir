@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!-- This file was automatically generated from C sources - DO NOT EDIT!
+To affect the contents of this file, edit the original C definitions,
+and/or use gtk-doc annotations.  -->
+<repository version="1.2"
+            xmlns="http://www.gtk.org/introspection/core/1.0"
+            xmlns:c="http://www.gtk.org/introspection/c/1.0"
+            xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+  <include name="GObject" version="2.0"/>
+  <namespace name="Hello"
+             version="0.1"
+             shared-library="libhello.so.0"
+             c:identifier-prefixes="Hello"
+             c:symbol-prefixes="hello">
+    <class name="World"
+           c:symbol-prefix="world"
+           c:type="HelloWorld"
+           parent="GObject.Object"
+           glib:type-name="HelloWorld"
+           glib:get-type="hello_world_get_type"
+           glib:type-struct="WorldClass">
+      <constructor name="new" c:identifier="hello_world_new">
+        <return-value transfer-ownership="full">
+          <type name="World" c:type="HelloWorld*"/>
+        </return-value>
+      </constructor>
+      <method name="get_greeting" c:identifier="hello_world_get_greeting">
+        <return-value transfer-ownership="full">
+          <type name="utf8" c:type="gchar*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="this" transfer-ownership="none">
+            <type name="World" c:type="HelloWorld*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="set_greeting" c:identifier="hello_world_set_greeting">
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="this" transfer-ownership="none">
+            <type name="World" c:type="HelloWorld*"/>
+          </instance-parameter>
+          <parameter name="greeting" transfer-ownership="none">
+            <type name="utf8" c:type="gchar*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <field name="parent">
+        <type name="GObject.Object" c:type="GObject"/>
+      </field>
+    </class>
+    <record name="WorldClass"
+            c:type="HelloWorldClass"
+            glib:is-gtype-struct-for="World">
+      <field name="parent">
+        <type name="GObject.ObjectClass" c:type="GObjectClass"/>
+      </field>
+    </record>
+    <record name="WorldPrivate" c:type="HelloWorldPrivate" disguised="1">
+    </record>
+  </namespace>
+</repository>
