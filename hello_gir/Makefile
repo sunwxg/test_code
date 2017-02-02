@@ -51,4 +51,4 @@ libs:
 	@g-ir-compiler Hello-0.1.gir --output=Hello-0.1.typelib
 
 clean:
-	rm -f *gir *typelib *lo *la ${DEST} my_gjs
+	rm -rf *gir *typelib *lo *la ${DEST} my_gjs .libs
