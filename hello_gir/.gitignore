@@ -1,0 +1,7 @@
+*.lo
+*.la
+*.gir
+*.typelib
+my_gjs
+my_obj
+.libs
