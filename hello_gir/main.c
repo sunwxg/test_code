@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
 
 	hello_world_set_greeting(hello, "hello world!");
 
-	g_print("%s\n", hello_world_get_greeting(hello));
+    g_print("%s\n", hello_world_get_greeting(hello));
 
 	return 0;
 }

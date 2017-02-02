@@ -11,14 +11,14 @@ CC=gcc
 SRC=main.c hello-world.c hello-world.h
 DEST=my_obj
 
-all: ${DEST} libs
+all: ${DEST} libs my_gjs
 
 ${DEST}: ${SRC}
 	${CC} ${CFLAGS} $^ -o $@ ${LFLAGS}
 
 gjs: ${DEST} my_gjs gir typelib
 
-my_gjs: my_gjs.c hello-world.c hello-world.h
+my_gjs: my_gjs.c
 	${CC} ${CFLAGS} $^ -o $@ ${LFLAGS}
 
 .PHONY: compile gir typelib libs clean
@@ -51,4 +51,4 @@ libs:
 	@g-ir-compiler Hello-0.1.gir --output=Hello-0.1.typelib
 
 clean:
-	rm -rf *gir *typelib *lo *la ${DEST} my_gjs .libs
+	rm -rf *gir *typelib *lo *la *.o ${DEST} my_gjs .libs
