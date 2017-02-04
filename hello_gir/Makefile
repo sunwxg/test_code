@@ -34,18 +34,6 @@ libs:
 my_gjs: my_gjs.c
 	${CC} ${CFLAGS} $^ -o $@ ${LFLAGS}
 
-gjs: my_obj my_gjs gir typelib
-
-gir: my_obj
-	g-ir-scanner hello-world.[ch] \
-	--program=./my_obj \
-	`pkg-config --cflags gobject-introspection-1.0` --include=GObject-2.0 \
-	--namespace=Hello --nsversion=0.1 --output=Hello-0.1.gir \
-	--warn-all
-
-typelib: gir
-	g-ir-compiler Hello-0.1.gir --output=Hello-0.1.typelib
-
 compile: ${SRC}
 	${CC} -E ${CFLAGS} $^
 
