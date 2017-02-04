@@ -12,8 +12,6 @@ SRC=my_obj.c hello-world.c hello-world.h
 
 all: my_obj libs my_gjs
 
-.PHONY: compile gir typelib libs clean
-
 my_obj: ${SRC}
 	${CC} ${CFLAGS} $^ -o $@ ${LFLAGS}
 
@@ -33,6 +31,8 @@ libs:
 
 my_gjs: my_gjs.c
 	${CC} ${CFLAGS} $^ -o $@ ${LFLAGS}
+
+.PHONY: compile clean
 
 compile: ${SRC}
 	${CC} -E ${CFLAGS} $^
