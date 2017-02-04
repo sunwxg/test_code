@@ -8,12 +8,11 @@ LFLAGS+=`pkg-config --libs gobject-introspection-1.0 gmodule-2.0`
 LFLAGS+=`pkg-config --libs gjs-1.0`
 CC=gcc
 
-SRC=main.c hello-world.c hello-world.h
-DEST=my_obj
+SRC=my_obj.c hello-world.c hello-world.h
 
-all: ${DEST} libs my_gjs
+all: my_obj libs my_gjs
 
-${DEST}: ${SRC}
+my_obj: ${SRC}
 	${CC} ${CFLAGS} $^ -o $@ ${LFLAGS}
 
 gjs: ${DEST} my_gjs gir typelib
