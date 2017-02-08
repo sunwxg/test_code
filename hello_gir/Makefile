@@ -1,11 +1,7 @@
 CFLAGS=-g -Wall -pthread
-CFLAGS+=`pkg-config --cflags gobject-2.0`
-CFLAGS+=`pkg-config --cflags gobject-introspection-1.0`
-CFLAGS+=`pkg-config --cflags gjs-1.0`
-
-LFLAGS+=`pkg-config --libs gobject-2.0`
-LFLAGS+=`pkg-config --libs gobject-introspection-1.0 gmodule-2.0`
-LFLAGS+=`pkg-config --libs gjs-1.0`
+CFLAGS+=`pkg-config --cflags --libs gobject-2.0`
+CFLAGS+=`pkg-config --cflags --libs gobject-introspection-1.0`
+CFLAGS+=`pkg-config --cflags --libs gjs-1.0`
 CC=gcc
 
 SRC=my_obj.c hello-world.c hello-world.h
