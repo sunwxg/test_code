@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Terminal=false
+Categories=Qt
+Name=my_flag
+GenericName=flag
+Comment=my_flag
+Encoding=UTF-8
+Icon=my_flag
+Exec=my_flag
