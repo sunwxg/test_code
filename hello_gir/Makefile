@@ -6,12 +6,12 @@ CC=gcc
 
 SRC=my_obj.c hello-world.c hello-world.h
 
-all: my_obj libs my_gjs
+all: my_obj libs gir my_gjs
 
 my_obj: ${SRC}
 	${CC} ${CFLAGS} $^ -o $@ ${LFLAGS}
 
-libs:
+libs: ${SRC}
 	@libtool compile gcc `pkg-config --cflags gobject-2.0` \
 	-g -c hello-world.c -o hello-world.lo
 	@libtool link gcc `pkg-config --libs gobject-2.0` \
@@ -23,6 +23,7 @@ libs:
 	`pkg-config --cflags gobject-2.0` --include=GObject-2.0 \
 	--namespace=Hello --nsversion=0.1 --output=Hello-0.1.gir
 
+gir: libs
 	@g-ir-compiler Hello-0.1.gir --output=Hello-0.1.typelib
 
 my_gjs: my_gjs.c
@@ -34,4 +35,4 @@ compile: ${SRC}
 	${CC} -E ${CFLAGS} $^
 
 clean:
-	rm -rf *gir *typelib *lo *la *.o my_obj my_gjs .libs
+	@rm -rf *gir *typelib *lo *la *.o my_obj my_gjs .libs
