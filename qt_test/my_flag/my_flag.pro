@@ -4,7 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += \
+           core \
+	   gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,6 +17,8 @@ desktops.path = /usr/share/applications
 desktops.files = *.desktop
 INSTALLS += desktops
 
+LIBS += \
+        -lXi
 
 SOURCES += main.cpp\
         my_flag.cpp
