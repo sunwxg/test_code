@@ -6,24 +6,12 @@ CC=gcc
 
 SRC=my_obj.c hello-world.c hello-world.h gifunc-hello.h gifunc-hello.c
 
-all: my_obj libs gir my_gjs
+all: my_obj libs-obj libs-func gir-obj gir-func my_gjs xml
 
 my_obj: ${SRC}
 	${CC} ${CFLAGS} $^ -o $@ ${LFLAGS}
 
-libs: ${SRC}
-	@libtool compile gcc `pkg-config --cflags gobject-2.0` \
-	-g -c hello-world.c -o hello-world.lo
-
-	@libtool link gcc `pkg-config --libs gobject-2.0` \
-	-rpath /usr/local/lib \
-	hello-world.lo -o libhello.la
-
-	@g-ir-scanner hello-world.[ch] \
-	--library=hello \
-	`pkg-config --cflags gobject-2.0` --include=GObject-2.0 \
-	--namespace=Hello --nsversion=0.1 --output=Hello-0.1.gir
-
+libs-func: ${SRC}
 	@libtool compile gcc `pkg-config --cflags gobject-2.0` \
 	-g -c gifunc-hello.c -o gifunc.lo
 
@@ -31,17 +19,36 @@ libs: ${SRC}
 	-rpath /usr/local/lib \
 	gifunc.lo -o libgifunc.la
 
-	@g-ir-scanner gifunc-hello.[ch] \
+	g-ir-scanner gifunc-hello.[ch] \
 	--library=gifunc \
 	`pkg-config --cflags gobject-2.0` \
 	--namespace=Gifunc --nsversion=0.1 --output=Gifunc-0.1.gir
 
-gir: libs
-	@g-ir-compiler Hello-0.1.gir --output=Hello-0.1.typelib
-	@g-ir-compiler Gifunc-0.1.gir --output=Gifunc-0.1.typelib
+gir-func: libs-func
+	g-ir-compiler Gifunc-0.1.gir --output=Gifunc-0.1.typelib
+
+libs-obj: ${SRC}
+	@libtool compile gcc `pkg-config --cflags gobject-2.0` \
+	-g -c hello-world.c -o hello-world.lo
+
+	@libtool link gcc `pkg-config --libs gobject-2.0` \
+	-rpath /usr/local/lib \
+	hello-world.lo -o libhello.la
+
+	g-ir-scanner hello-world.[ch] \
+	--library=hello \
+	`pkg-config --cflags gobject-2.0` --include=GObject-2.0 \
+	--namespace=Hello --nsversion=0.1 --output=Hello-0.1.gir
+
+gir-obj: libs-obj
+	g-ir-compiler Hello-0.1.gir --output=Hello-0.1.typelib
 
 my_gjs: my_gjs.c
 	${CC} ${CFLAGS} $^ -o $@ ${LFLAGS}
+
+xml: gir-obj gir-func
+	g-ir-generate Gifunc-0.1.typelib > Gifunc-0.1.typelib.xml
+	g-ir-generate Hello-0.1.typelib > Hello-0.1.typelib.xml
 
 .PHONY: compile clean
 
@@ -49,4 +56,4 @@ compile: ${SRC}
 	${CC} -E ${CFLAGS} $^
 
 clean:
-	@rm -rf *gir *typelib *lo *la *.o my_obj my_gjs .libs
+	@rm -rf *gir *typelib *lo *la *.o my_obj my_gjs .libs *xml
