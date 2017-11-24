@@ -1,0 +1,118 @@
+*******************
+Links:
+*******************
+	https://wiki.gnome.org/action/show/Projects/GObjectIntrospection?action=show&redirect=GObjectIntrospection#Documentation
+	https://wiki.gnome.org/Projects/GObjectIntrospection/Annotations
+
+*******************
+GI's architecture
+*******************
+
+BUILD TIME:
+
+          +-----------------------------------------------------------+
+          |   foo.c                                                   |
+          |   foo.h                                                   |
+          |                                                           |
+          | Library sources, with type annotations                    |
+          +-----------------------------------------------------------+
+              |                                      |
+             gcc                                 g-ir-scanner
+              |                                      |
+              |                                      V
+              |                              +------------------------+
+              |                              |    Foo.gir             |
+              |                              |                        |
+              |                              |    <GI-name>.gir       |
+              |                              |                        |
+              |                              | XML file               |
+              |                              |                        |
+              |                              | Invocation information |
+              |                              | Required .gir files    |
+              |                              | API docs               |
+              |                              |                        |
+              |                              +------------------------+
+              |                                          |
+              |                                     g-ir-compiler
+              |                                          |
+  DEPLOYMENT TIME:                                       |
+              |                                          |
+              V                                          V
+        +-----------------------------+      +---------------------------+
+        |   libfoo.so                 |      |    Foo.typelib            |
+        |                             |      |                           |
+        |                             |      | Binary version of the     |
+        |  ELF file                   |      | invocation info and       |
+        |                             |      | required .typelib files   |
+        |  Machine code, plus         |      +---------------------------+
+        | dynamic linkage information |                  A
+        | (DWARF debug data, etc)     |                  |
+        +-----------------------------+                  |
+                     A                                   |
+                     |                       +---------------------------+
+                     |                       |  libgirepository.so       |
+                +-----------+                |                           |
+                | libffi.so |                |  Can read typelibs and    |
+                |           |<-------+------>|  present them in a        |
+                +-----------+        |       |  libffi-based way         |
+                                     |       |                           |
+                                     |       +---------------------------+
+                                     |
+                                     |
+                           +----------------------------+
+                           | Specific language bindings |
+                           +----------------------------+
+
+
+------------------------
+Make C function
+	gifunc-hello.h
+	gifunc-hello.c
+
+Create bindings
+	make libs-func
+	make gir-func
+
+Use C function in GJS
+	gjs hello-func.js
+
+------------------------
+Make a GObject
+	hello-world.h
+	hello-world.c
+
+Use GObject in C
+	make my_obj
+	./my_obj
+
+Create GObject bindings
+	make libs-obj
+	make gir-obj
+
+Use it in GJS
+	gjs hello.js
+
+------------------------
+Run GJS in C
+	make my_gjs
+	./my_gjs
+
+------------------------
+Create xml from typelib file
+	make xml
+
+	g-ir-generate xxx.typelib > xxx.xml
+	/usr/lib64/girepository-1.0
+
+------------------------
+Use tech
+	gdbus call -y -d org.freedesktop.hostname1 \
+      -o /org/freedesktop/hostname1 \
+      -m org.freedesktop.DBus.Properties.Get \
+      "org.freedesktop.hostname1" "Hostname"
+
+	/home/sun/person/gnome/dbus/get_hostname.c
+	/home/sun/person/gnome/gjs/dbus_get_properties.js
+	/home/sun/person/gnome/gjs/dbus_hostname_method_call.js
+
+
