@@ -6,12 +6,12 @@ CC=gcc
 
 SRC=my_obj.c hello-world.c hello-world.h gifunc-hello.h gifunc-hello.c
 
-all: my_obj libs-obj libs-func gir-obj gir-func my_gjs xml
+all: my_obj gir-obj gir-func typelib-obj typelib-func my_gjs xml
 
 my_obj: ${SRC}
 	${CC} ${CFLAGS} $^ -o $@ ${LFLAGS}
 
-libs-func: ${SRC}
+gir-func: ${SRC}
 	@libtool compile gcc `pkg-config --cflags gobject-2.0` \
 	-g -c gifunc-hello.c -o gifunc.lo
 
@@ -24,10 +24,10 @@ libs-func: ${SRC}
 	`pkg-config --cflags gobject-2.0` \
 	--namespace=Gifunc --nsversion=0.1 --output=Gifunc-0.1.gir
 
-gir-func: libs-func
+typelib-func: gir-func
 	g-ir-compiler Gifunc-0.1.gir --output=Gifunc-0.1.typelib
 
-libs-obj: ${SRC}
+gir-obj: ${SRC}
 	@libtool compile gcc `pkg-config --cflags gobject-2.0` \
 	-g -c hello-world.c -o hello-world.lo
 
@@ -40,13 +40,13 @@ libs-obj: ${SRC}
 	`pkg-config --cflags gobject-2.0` --include=GObject-2.0 \
 	--namespace=Hello --nsversion=0.1 --output=Hello-0.1.gir
 
-gir-obj: libs-obj
+typelib-obj: gir-obj
 	g-ir-compiler Hello-0.1.gir --output=Hello-0.1.typelib
 
 my_gjs: my_gjs.c
 	${CC} ${CFLAGS} $^ -o $@ ${LFLAGS}
 
-xml: gir-obj gir-func
+xml: typelib-obj typelib-func
 	g-ir-generate Gifunc-0.1.typelib > Gifunc-0.1.typelib.xml
 	g-ir-generate Hello-0.1.typelib > Hello-0.1.typelib.xml
 

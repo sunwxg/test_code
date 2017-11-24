@@ -70,8 +70,8 @@ Make C function
 	gifunc-hello.c
 
 Create bindings
-	make libs-func
 	make gir-func
+	make typelib-func
 
 Use C function in GJS
 	gjs hello-func.js
@@ -86,8 +86,8 @@ Use GObject in C
 	./my_obj
 
 Create GObject bindings
-	make libs-obj
 	make gir-obj
+	make typelib-obj
 
 Use it in GJS
 	gjs hello.js
