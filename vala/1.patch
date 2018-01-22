@@ -1,0 +1,57 @@
+Only in gnome-shell-js: gnome-shell-js
+diff -upr gnome-shell-js-orig/ui/overviewControls.js gnome-shell-js/ui/overviewControls.js
+--- gnome-shell-js-orig/ui/overviewControls.js	2017-10-24 10:46:49.249236074 +0800
++++ gnome-shell-js/ui/overviewControls.js	2017-10-24 10:53:39.780820643 +0800
+@@ -13,6 +13,7 @@ const Params = imports.misc.params;
+ const Tweener = imports.ui.tweener;
+ const ViewSelector = imports.ui.viewSelector;
+ const WorkspaceThumbnail = imports.ui.workspaceThumbnail;
++const SLEClassicExt = imports.ui.SLEClassicExt;
+ 
+ var SIDE_CONTROLS_ANIMATION_TIME = 0.16;
+ 
+@@ -459,6 +460,10 @@ var ControlsManager = new Lang.Class({
+         geometry.width -= dashWidth;
+         geometry.width -= thumbnailsWidth;
+ 
++	//wxg
++	if(SLEClassicExt.isSLEClassicMode())
++	    geometry.height -= Main.layoutManager.panelBox.height;
++
+         if (this.actor.get_text_direction() == Clutter.TextDirection.LTR)
+             geometry.x += dashWidth;
+         else
+diff -upr gnome-shell-js-orig/ui/workspace.js gnome-shell-js/ui/workspace.js
+--- gnome-shell-js-orig/ui/workspace.js	2017-10-24 10:46:49.309236595 +0800
++++ gnome-shell-js/ui/workspace.js	2017-10-24 10:55:20.961709093 +0800
+@@ -17,6 +17,7 @@ const Main = imports.ui.main;
+ const Overview = imports.ui.overview;
+ const Tweener = imports.ui.tweener;
+ const WindowManager = imports.ui.windowManager;
++const SLEClassicExt = imports.ui.SLEClassicExt;
+ 
+ var WINDOW_DND_SIZE = 256;
+ 
+@@ -869,6 +870,10 @@ var LayoutStrategy = new Lang.Class({
+         let hspacing = (layout.maxColumns - 1) * this._columnSpacing;
+         let vspacing = (layout.numRows - 1) * this._rowSpacing;
+ 
++	//wxg
++	if(SLEClassicExt.isSLEClassicMode())
++            vspacing = layout.numRows * this._rowSpacing;
++
+         let spacedWidth = area.width - hspacing;
+         let spacedHeight = area.height - vspacing;
+ 
+@@ -901,6 +906,11 @@ var LayoutStrategy = new Lang.Class({
+         }
+ 
+         let verticalSpacing = (rows.length - 1) * this._rowSpacing;
++
++	//wxg
++	if(SLEClassicExt.isSLEClassicMode())
++            verticalSpacing = rows.length * this._rowSpacing;
++
+         let additionalVerticalScale = Math.min(1, (area.height - verticalSpacing) / heightWithoutSpacing);
+ 
+         // keep track how much smaller the grid becomes due to scaling
