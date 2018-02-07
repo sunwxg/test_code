@@ -1,4 +1,9 @@
-OBJ=hello animate_actor use_ui use_ui_gtktemplate sourceView cat_patch
+OBJ=hello \
+	animate_actor \
+	use_ui \
+	use_ui_gtktemplate \
+	sourceView \
+	cat_patch
 
 all: ${OBJ}
 
