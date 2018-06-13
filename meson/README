@@ -1,0 +1,6 @@
+mkdir /dev/shm/meson
+
+meson /dev/shm/meson
+
+cd /dev/shm/meson
+ninja
