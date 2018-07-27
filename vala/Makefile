@@ -3,6 +3,7 @@ OBJ=hello \
 	use_ui \
 	use_ui_gtktemplate \
 	sourceView \
+	string \
 	cat_patch
 
 all: ${OBJ}
@@ -29,6 +30,9 @@ sourceView: sourceView.vala
 	valac --pkg gtk+-3.0 --pkg gtksourceview-3.0 $^ -o $@
 
 cat_patch: cat_patch.vala
+	valac $^ -o $@
+
+string: string.vala
 	valac $^ -o $@
 
 clean:
